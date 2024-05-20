@@ -24,17 +24,20 @@ class Scraper:
             return await asyncio.gather(*tasks)
 
     async def _fetch_and_parse(self, session, url):
-        html = await self._fetch(session, url)
-        return self._parse_html(html)
+        html = ""
+        try:
+            html = await self._fetch(session, url)
+        except Exception as _:
+            print(f"Failed to fetch {url}")
+        finally:
+            return self._parse_html(html)
 
     @staticmethod
     async def _fetch(session, url):
         async with session.get(url) as response:
             return await response.text()
 
-    # TODO: implement parsing
     @staticmethod
     def _parse_html(html):
         soup = BeautifulSoup(html, 'html.parser')
-        title = soup.title.string if soup.title else 'No title'
-        return title
+        return soup.get_text()

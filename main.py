@@ -17,7 +17,8 @@ if __name__ == "__main__":
     )
 
     print(bot.investigate_pattern(
-        tool="PEP",
-        language="Python",
-        pattern_description="PEP 8: E303 too many blank lines (3)"
+        tool="CakePHP",
+        language="PHP",
+        pattern_description="Classes: Return Type Hint",
+        pattern_title="CakePHP_Classes_ReturnTypeHint"
     ))

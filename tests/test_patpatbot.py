@@ -25,6 +25,7 @@ class TestPatPatBot(unittest.TestCase):
         investigation_result = self.__bot.investigate_pattern(
             tool="PEP",
             language="Python",
-            pattern_description="PEP 8: E303 too many blank lines (3)"
+            pattern_description="PEP 8: E303 too many blank lines (3)",
+            pattern_title="PEP8_E303",
         )
         self.assertGreater(len(investigation_result), 0)  # TODO improve this test
