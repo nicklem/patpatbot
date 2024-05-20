@@ -8,7 +8,7 @@ class Gpt:
         self.__model = ChatOpenAI(model=model, api_key=openai_api_key)
         self.__output_parser = StrOutputParser()
 
-    def prompt(self, prompt_template_messages, prompt_data=None):
+    def execute_prompt(self, prompt_template_messages, prompt_data=None):
         """
         :param prompt_template_messages: List of tuples containing the message type and the message content.
             Example: [("system", "Your name is {name}."), ("human", "{user_input}")]

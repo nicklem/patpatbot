@@ -1,3 +1,4 @@
+import os
 from patpatbot.google import GoogleSearch
 from patpatbot.gpt import Gpt
 
@@ -18,30 +19,26 @@ class PatPatBot:
         :return: The pattern's investigation results as a string.
         """
 
-        pattern_info = self.__search.gather_info(f"{tool} {language} {pattern_description}")
-        # TODO extract the prompt to a config file or some such
-        prompt = """Investigate the pattern '{pattern_description}' from tool {tool} for language a{language}.
-                 The pattern title is {pattern_description}.
-                 A Google search yielded the following data which may be relevant: ```{pattern_info}```
-                 Provide a short description of the pattern, approximately under 20 words.
-                 This will be used as-is in pattern documentation.
-                 Be mindful of that and adopt a professional, terse tone.
-                 Don't mention the name of the pattern in the description.
-                 Limit yourself to providing a concise summary of the pattern's meaning and suggested action."""
-
-        return self.__gpt.prompt(
+        return self.__gpt.execute_prompt(
             [
                 (
                     "system",
                     "You're a senior technical writer at a software company, specializing in static analysis tools."
                 ),
-                ("human", prompt)
+                ("human", self._load_prompt("investigate_pattern"))
             ],
             {
                 "language": language,
                 "pattern_description": pattern_description,
-                "pattern_info": pattern_info,
+                "pattern_info": self.__search.gather_info(f"{tool} {language} {pattern_description}"),
                 "pattern_title": pattern_title,
                 "tool": tool,
             }
         )
+
+    @staticmethod
+    def _load_prompt(prompt_name):
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        file_path = os.path.join(dir_path, "..", "prompts", prompt_name)
+        with open(file_path, "r") as prompt_file:
+            return prompt_file.read()

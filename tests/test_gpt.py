@@ -15,7 +15,7 @@ class TestGpt(unittest.TestCase):
 
     def test_gpt_accepts_hardcoded_input(self):
         name = "TestBot"
-        output = self.__gpt.prompt([
+        output = self.__gpt.execute_prompt([
             ("system", "Your name is {name}.".format(name=name)),
             ("human", "What is your name? Print **only** your name."),
         ])
@@ -23,7 +23,7 @@ class TestGpt(unittest.TestCase):
 
     def test_gpt_accepts_formatted_input(self):
         name = "TestBot"
-        output = self.__gpt.prompt(
+        output = self.__gpt.execute_prompt(
             [
                 ("system", "Your name is {name}."),
                 ("human", "{user_input}"),
