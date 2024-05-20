@@ -1,4 +1,5 @@
 import os
+import yaml
 from patpatbot.google import GoogleSearch
 from patpatbot.gpt import Gpt
 
@@ -20,13 +21,7 @@ class PatPatBot:
         """
 
         return self.__gpt.execute_prompt(
-            [
-                (
-                    "system",
-                    "You're a senior technical writer at a software company, specializing in static analysis tools."
-                ),
-                ("human", self._load_prompt("investigate_pattern"))
-            ],
+            self._load_prompt_template_from_yaml("investigate_pattern"),
             {
                 "language": language,
                 "pattern_description": pattern_description,
@@ -37,8 +32,10 @@ class PatPatBot:
         )
 
     @staticmethod
-    def _load_prompt(prompt_name):
+    def _load_prompt_template_from_yaml(prompt_name):
         dir_path = os.path.dirname(os.path.realpath(__file__))
-        file_path = os.path.join(dir_path, "..", "prompts", prompt_name)
+        file_path = os.path.join(dir_path, "..", "prompts", f"{prompt_name}.yaml")
+
         with open(file_path, "r") as prompt_file:
-            return prompt_file.read()
+            # Convert list of lists to list of tuples to comply with the expected input format
+            return [tuple(entry) for entry in yaml.safe_load(prompt_file)]

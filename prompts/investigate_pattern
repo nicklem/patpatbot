@@ -1,8 +1,0 @@
-Investigate the pattern '{pattern_description}' from tool {tool} for language {language}.
-The pattern title is {pattern_description}.
-A Google search yielded the following data which may be relevant: ```{pattern_info}```
-Provide a short description of the pattern, approximately under 50 words.
-This will be used as-is in pattern documentation: be mindful of that and adopt a professional, friendly tone.
-Don't mention the name of the pattern in the description.
-Provide a concise summary of the pattern's meaning and suggested action.
-If appropriate, append an example enclosed in triple backticks.
