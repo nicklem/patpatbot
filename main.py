@@ -19,7 +19,7 @@ if __name__ == "__main__":
     repo_manager = RepoManager()
 
     for repo in repo_manager.repos:
-        for doc in repo.get_docs()[:1]:
+        for doc in repo.get_docs()[:1]:  # TODO remove [:1]
             doc["new_pattern_description"] = bot.investigate_pattern(
                 tool=doc["tool"],
                 pattern_description=doc["pattern_description"],

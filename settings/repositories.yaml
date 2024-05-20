@@ -1,3 +1,6 @@
 -
+  url: "git@github.com:codacy/codacy-phpmd.git"
+  docs_glob: "docs/description/*.md"
+-
   url: "git@github.com:codacy/codacy-codesniffer.git"
   docs_glob: "docs/description/*.md"
