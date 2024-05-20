@@ -1,0 +1,3 @@
+-
+  url: "git@github.com:codacy/codacy-codesniffer.git"
+  docs_glob: "docs/description/*.md"

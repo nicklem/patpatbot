@@ -22,7 +22,6 @@ class TestPatPatBot(unittest.TestCase):
     def test_bot_does_some_investigation(self):
         investigation_result = self.__bot.investigate_pattern(
             tool="PEP",
-            language="Python",
             pattern_description="PEP 8: E303 too many blank lines (3)",
             pattern_title="PEP8_E303",
         )

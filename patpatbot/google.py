@@ -34,4 +34,4 @@ class GoogleSearch:
         )
         soup = BeautifulSoup(response.text, 'html.parser')
         links = soup.select('#search span>a')  # TODO eventually make this more robust
-        return [link['href'] for link in links]
+        return [link['href'] for link in links[:3]]

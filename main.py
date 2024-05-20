@@ -1,8 +1,10 @@
 import os
 from dotenv import load_dotenv
 from patpatbot.bot import PatPatBot
+from patpatbot.git import RepoManager
 from patpatbot.google import GoogleSearch
 from patpatbot.gpt import Gpt
+import pprint
 
 load_dotenv()
 
@@ -14,9 +16,13 @@ if __name__ == "__main__":
         search=GoogleSearch()
     )
 
-    print(bot.investigate_pattern(
-        tool="CakePHP",
-        language="PHP",
-        pattern_description="Classes: Return Type Hint",
-        pattern_title="CakePHP_Classes_ReturnTypeHint"
-    ))
+    repo_manager = RepoManager()
+
+    for repo in repo_manager.repos:
+        for doc in repo.get_docs()[:1]:
+            doc["new_pattern_description"] = bot.investigate_pattern(
+                tool=doc["tool"],
+                pattern_description=doc["pattern_description"],
+                pattern_title=doc["pattern_filename"],
+            )
+            pprint.pp(doc)
