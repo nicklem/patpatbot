@@ -1,3 +1,4 @@
+import json
 from googleapiclient.discovery import build
 from .scraper import Scraper
 
@@ -12,7 +13,7 @@ class GoogleSearch:
         self.__cse_id = cse_id
         self.__scraper = Scraper()
 
-    def gather_info(self, query, num_results=10):
+    def gather_info(self, query, num_results=10) -> str:
         """
         Perform a Google search and scrape the results.
 
@@ -21,7 +22,8 @@ class GoogleSearch:
         :return: List of scraped results.
         """
         result_urls = self._search(query, num_results)
-        return self.__scraper.scrape(result_urls)
+        result_data = self.__scraper.scrape(result_urls)
+        return json.dumps(result_data)
 
     def _search(self, query, num_results=10):
         """
