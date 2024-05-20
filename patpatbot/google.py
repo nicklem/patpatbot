@@ -1,34 +1,37 @@
+from bs4 import BeautifulSoup
 import json
-from googleapiclient.discovery import build
+import requests
 from .scraper import Scraper
 
 
 class GoogleSearch:
-    def __init__(self, api_key, cse_id):
-        """
-        :param api_key: API key for Google Custom Search.
-        :param cse_id: Custom Search Engine ID.
-        """
-        self.__api_key = api_key
-        self.__cse_id = cse_id
+    def __init__(self):
         self.__scraper = Scraper()
 
-    def gather_info(self, query, num_results=10) -> str:
+    def gather_info(self, query) -> str:
         """
         Perform a Google search and scrape the results.
 
         :param query: Search query.
-        :param num_results: Number of search results to return.
         :return: List of scraped results.
         """
-        result_urls = self._search(query, num_results)
+        result_urls = self._search(query)
         result_data = self.__scraper.scrape(result_urls)
         return json.dumps(result_data)
 
-    def _search(self, query, num_results=10):
+    @staticmethod
+    def _search(query):
         """
-        Perform a Google search using the Custom Search JSON API.
+        Scrape the Google SERP.
+
+        Note: Avoiding the Custom Search API here because it has very limited free usage.
         """
-        with build("customsearch", "v1", developerKey=self.__api_key) as service:
-            response = service.cse().list(q=query, cx=self.__cse_id, num=num_results).execute()
-            return [r['link'] for r in response['items']]
+        response = requests.get(
+            "https://www.google.com/search",
+            params={"q": query},
+            # Headers are necessary to avoid Google complaining
+            headers={"User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0"}
+        )
+        soup = BeautifulSoup(response.text, 'html.parser')
+        links = soup.select('#search span>a')  # TODO eventually make this more robust
+        return [link['href'] for link in links]

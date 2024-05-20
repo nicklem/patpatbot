@@ -7,13 +7,11 @@ from patpatbot.gpt import Gpt
 load_dotenv()
 
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
-GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
-GOOGLE_CSE_ID = os.getenv('GOOGLE_CSE_ID')
 
 if __name__ == "__main__":
     bot = PatPatBot(
         gpt=Gpt(OPENAI_API_KEY),
-        search=GoogleSearch(GOOGLE_API_KEY, GOOGLE_CSE_ID)
+        search=GoogleSearch()
     )
 
     print(bot.investigate_pattern(

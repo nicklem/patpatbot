@@ -9,8 +9,6 @@ from patpatbot.gpt import Gpt
 load_dotenv()
 
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
-GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
-GOOGLE_CSE_ID = os.getenv('GOOGLE_CSE_ID')
 
 
 class TestPatPatBot(unittest.TestCase):
@@ -18,7 +16,7 @@ class TestPatPatBot(unittest.TestCase):
     def setUp(self):
         self.__bot = PatPatBot(
             gpt=Gpt(OPENAI_API_KEY),
-            search=GoogleSearch(GOOGLE_API_KEY, GOOGLE_CSE_ID)
+            search=GoogleSearch()
         )
 
     def test_bot_does_some_investigation(self):
