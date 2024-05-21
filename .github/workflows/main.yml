@@ -21,8 +21,9 @@ jobs:
           npm run build
 
       - name: Run the script
-        run: npm run start
+        run: |
+          printenv
+          npm run start
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           REPO_NAME: ${{ github.event.repository.name }}
-          INPUT_DOCS_GLOB: 'docs/description/*.md'
