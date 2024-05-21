@@ -2,4 +2,6 @@
 
 Codacy pattern doc generator.
 
-TODO - Add more details
+[//]: # (TODO)
+[//]: # (- Tests)
+[//]: # (- Add docs)
