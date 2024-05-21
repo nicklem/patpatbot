@@ -1,0 +1,34 @@
+{
+  "name": "langchain_autodoc",
+  "version": "1.0.0",
+  "description": "Codacy pattern doc generator.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/string-format": "^2.0.3",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.4.5",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4"
+  },
+  "dependencies": {
+    "@langchain/core": "^0.2.0",
+    "@langchain/openai": "^0.0.33",
+    "axios": "^1.7.1",
+    "cheerio": "^1.0.0-rc.12",
+    "dotenv": "^16.4.5",
+    "glob": "^10.3.15",
+    "string-format": "^2.0.0",
+    "string-template": "^1.0.0"
+  }
+}

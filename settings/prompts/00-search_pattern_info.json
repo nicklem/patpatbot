@@ -1,4 +1,0 @@
-{
-  "tool": "google",
-  "prompt_human": "{init__tool} {init__pattern_description}"
-}
