@@ -24,3 +24,4 @@ jobs:
         run: npm run start
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          REPO_NAME: ${{ github.event.repository.name }}
