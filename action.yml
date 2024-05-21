@@ -4,7 +4,7 @@ author: 'Nicola Klemenc'
 inputs:
   docs_glob:
     description: 'Glob pattern to search for documentation files'
-    required: true
+    required: false
     default: 'docs/description/*.md'
 runs:
   using: 'node20'
