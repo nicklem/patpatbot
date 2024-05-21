@@ -1,5 +1,5 @@
 from .PromptTemplate import PromptTemplate
-from .RepoManager import DocFileData
+from .DocFileData import DocFileData
 from .GoogleSearch import GoogleSearch
 from .Gpt import Gpt
 from glob import glob
@@ -7,6 +7,8 @@ from os.path import join, dirname, realpath
 
 
 class PatPatBot:
+    PROMPT_FILE_PATHS = sorted(glob(join(dirname(realpath(__file__)), "..", "settings", "prompts", "*.json")))
+
     def __init__(self, gpt: Gpt, search: GoogleSearch):
         self.__gpt = gpt
         self.__search = search
@@ -14,7 +16,7 @@ class PatPatBot:
         self.__prompt_data = {}
 
     def set_source_doc_data(self, doc_file_data: DocFileData):
-        self.__prompt_data = doc_file_data.to_dict(prefix="init__")
+        self.__prompt_data = doc_file_data.to_dict(key_prefix="init__")
 
     def process_source_doc(self):
         for prompt_template in self.__prompt_templates:
@@ -23,7 +25,7 @@ class PatPatBot:
             elif prompt_template.is_gpt:
                 self._do_prompt(prompt_template)
 
-    def extract_prompt_result(self, key: str):
+    def get_prompt_result(self, key: str):
         return self.__prompt_data[key]
 
     def _do_search(self, prompt_template: PromptTemplate):
@@ -47,6 +49,4 @@ class PatPatBot:
 
     @staticmethod
     def _load_prompt_templates() -> list[PromptTemplate]:
-        prompt_file_paths = glob(join(dirname(realpath(__file__)), "..", "settings", "prompts", "*.json"))
-        prompt_file_paths.sort()  # Expects template names to begin with numbers (e.g., 01_prompt.yaml)
-        return [PromptTemplate.from_file_path(file_path) for file_path in prompt_file_paths]
+        return [PromptTemplate.from_file_path(file_path) for file_path in PatPatBot.PROMPT_FILE_PATHS]

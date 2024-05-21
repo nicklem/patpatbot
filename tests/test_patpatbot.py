@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 from patpatbot.GoogleSearch import GoogleSearch
 from patpatbot.Gpt import Gpt
 from patpatbot.PatPatBot import PatPatBot
-from patpatbot.RepoManager import DocFileData
+from patpatbot.DocFileData import DocFileData
 import os
 import unittest
 
@@ -24,11 +24,11 @@ class TestPatPatBot(unittest.TestCase):
             tool="PEP",
             pattern_description="PEP 8: E303 too many blank lines (3)",
             pattern_filename="PEP8_E303",
-            path="tests/test_patpatbot.py",
+            path="path/to/doc-file.md",
         )
 
         self.__bot.set_source_doc_data(sample_doc_data)
         self.__bot.process_source_doc()
-        result = self.__bot.extract_prompt_result('examine')
+        result = self.__bot.get_prompt_result('examine')
 
         self.assertGreater(len(result), 0)  # TODO improve this test
