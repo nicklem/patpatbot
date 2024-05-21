@@ -1,6 +1,6 @@
-name: Read Markdown Files
+name: Generate doc patterns
 
-on: [push, pull_request]
+on: pull_request
 
 jobs:
   build:
@@ -21,4 +21,6 @@ jobs:
           npm run build
 
       - name: Run the script
-        run: node dist/main.js
+        run: npm run start
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}

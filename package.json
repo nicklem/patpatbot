@@ -9,7 +9,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rm -rf dist && npx tsc && node dist/main.js"
+    "build": "rm -rf dist && npx tsc",
+    "start": "node ./dist/main.js"
   },
   "keywords": [],
   "author": "",
