@@ -3,11 +3,6 @@ import * as cheerio from 'cheerio';
 
 class Scraper {
     async scrape(urls: string[]): Promise<string[]> {
-        const results = await this.scrapeAsync(urls);
-        return results;
-    }
-
-    private async scrapeAsync(urls: string[]): Promise<string[]> {
         const tasks = urls.map(url => this.fetchAndParse(url));
         return Promise.all(tasks);
     }
@@ -18,6 +13,7 @@ class Scraper {
             html = await this.fetch(url);
         } catch (error) {
             // TODO: Log this error
+            console.error(`Error fetching ${url}: ${error}`)
         }
         return this.parseHtml(html);
     }
@@ -29,7 +25,7 @@ class Scraper {
 
     private parseHtml(html: string): string {
         const $ = cheerio.load(html);
-        return $.text();
+        return $('p').text();
     }
 }
 

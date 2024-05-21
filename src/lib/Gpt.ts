@@ -2,6 +2,8 @@ import { ChatOpenAI } from '@langchain/openai';
 import { ChatPromptTemplate } from '@langchain/core/prompts';
 import { StringOutputParser } from '@langchain/core/output_parsers';
 
+type PromptTemplateMessages = Array<['system' | 'human', string]>;
+
 class Gpt {
     private model: ChatOpenAI;
 
@@ -14,7 +16,7 @@ class Gpt {
         promptData: Record<string, string> = {},
         promptSystem?: string
     ): Promise<string> {
-        const promptTemplateMessages: Array<[string, string]> = [];
+        const promptTemplateMessages: PromptTemplateMessages = [];
 
         if (promptSystem) {
             promptTemplateMessages.push(["system", promptSystem]);
@@ -25,7 +27,10 @@ class Gpt {
         return await this.doPromptFromMessages(promptTemplateMessages, promptData);
     }
 
-    private async doPromptFromMessages(promptTemplateMessages: Array<[string, string]>, promptData: Record<string, any> = {}): Promise<string> {
+    private async doPromptFromMessages(
+        promptTemplateMessages: PromptTemplateMessages,
+        promptData: Record<string, string> = {}
+    ): Promise<string> {
         const prompt = ChatPromptTemplate.fromMessages(promptTemplateMessages);
         const outputParser = new StringOutputParser();
 

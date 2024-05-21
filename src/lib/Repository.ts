@@ -1,37 +1,30 @@
 import { basename } from 'path';
 import { readFileSync } from 'fs';
 import { globSync } from 'glob';
-import DocFileData from './DocFileData';
+import DocumentationFile from './DocumentationFile';
 
 class Repository {
     private readonly name: string;
-    private readonly docFileData: DocFileData[];
+    private readonly docFileData: DocumentationFile[];
 
     constructor(name: string, docsGlob: string, replaceName: string = "codacy-") {
         this.name = replaceName ? name.replace(replaceName, "") : name;
         this.docFileData = this.loadDocFileData(docsGlob);
     }
 
-    get docs(): DocFileData[] {
+    get docs(): DocumentationFile[] {
         return this.docFileData;
     }
 
-    static fromSettings(name: string, docsGlob: string): Repository {
-        return new Repository(name, docsGlob);
-    }
-
-    private loadDocFileData(docsGlob: string): DocFileData[] {
-        return globSync(docsGlob).map(doc => new DocFileData(
-            this.name,
-            doc,
-            basename(doc),
-            readFileSync(doc, 'utf-8')
-        ));
-    }
-
-    static repoNameFromUrl(url: string): string {
-        const match = url.match(/.*\/(.*)\.git/);
-        return match ? match[1] : '';
+    private loadDocFileData(docFilePaths: string): DocumentationFile[] {
+        return globSync(docFilePaths).map(
+            docFilePath => new DocumentationFile({
+                tool: this.name,
+                path: docFilePath,
+                patternFilename: basename(docFilePath),
+                patternDescription: readFileSync(docFilePath, 'utf-8')
+            })
+        );
     }
 }
 
