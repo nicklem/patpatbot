@@ -1,16 +1,14 @@
 {
   "compilerOptions": {
-    "target": "es5",
     "module": "commonjs",
-    "strict": true,
     "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "target": "es2015",
+    "moduleResolution": "node",
+    "sourceMap": false,
+    "outDir": "dist/"
   },
-  "include": [
-    "src/**/*.ts"
+  "files": [
+    "src/main.ts"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "lib": ["es5, es6"]
 }
