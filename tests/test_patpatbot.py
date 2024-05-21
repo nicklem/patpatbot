@@ -1,10 +1,10 @@
-import os
 from dotenv import load_dotenv
-from patpatbot.bot import PatPatBot
+from patpatbot.GoogleSearch import GoogleSearch
+from patpatbot.Gpt import Gpt
+from patpatbot.PatPatBot import PatPatBot
+from patpatbot.RepoManager import DocFileData
+import os
 import unittest
-
-from patpatbot.google import GoogleSearch
-from patpatbot.gpt import Gpt
 
 load_dotenv()
 
@@ -20,9 +20,15 @@ class TestPatPatBot(unittest.TestCase):
         )
 
     def test_bot_does_some_investigation(self):
-        investigation_result = self.__bot.investigate_pattern(
+        sample_doc_data = DocFileData(
             tool="PEP",
             pattern_description="PEP 8: E303 too many blank lines (3)",
-            pattern_title="PEP8_E303",
+            pattern_filename="PEP8_E303",
+            path="tests/test_patpatbot.py",
         )
-        self.assertGreater(len(investigation_result), 0)  # TODO improve this test
+
+        self.__bot.set_source_doc_data(sample_doc_data)
+        self.__bot.process_source_doc()
+        result = self.__bot.extract_prompt_result('examine')
+
+        self.assertGreater(len(result), 0)  # TODO improve this test

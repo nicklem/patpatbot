@@ -5,25 +5,50 @@ import re
 import yaml
 
 
+class DocFileData:
+    path: str
+    tool: str
+    pattern_filename: str
+    pattern_description: str
+    pattern_description_improved: str
+
+    def __init__(self, tool, path, pattern_filename, pattern_description):
+        self.tool = tool
+        self.path = path
+        self.pattern_filename = pattern_filename
+        self.pattern_description = pattern_description
+
+    def to_dict(self, prefix=""):
+        output = {}
+        for attr in dir(self):
+            if not callable(attr) and not attr.startswith("__"):
+                output[prefix + attr] = getattr(self, attr)
+        return output
+
+    @property
+    def attribute_names(self):
+        return [attr for attr in dir(self) if not callable(attr) and not attr.startswith("__")]
+
+
 class RepoItem:
     def __init__(self, name, repo_url, repo_dir, docs_glob):
         self.__name = name.replace("codacy-", "")  # TODO hacky
         self.__dir = repo_dir
         self.__url = repo_url
-        self.__docs_data = [
-            {
-                "tool": self.__name,
-                "path": doc,
-                "pattern_filename": os.path.basename(doc),
-                "pattern_description": open(doc, "r").read()
-            }
+        self.__doc_file_data = [
+            DocFileData(
+                tool=self.__name,
+                path=doc,
+                pattern_filename=os.path.basename(doc),
+                pattern_description=open(doc, "r").read()
+            )
             for doc in glob(docs_glob)
         ]
 
-        self._clone_or_pull()
+        # self._clone_or_pull()
 
-    def get_docs(self):
-        return self.__docs_data
+    def get_doc_file_data(self) -> list[DocFileData]:
+        return self.__doc_file_data
 
     def _clone_or_pull(self):
         if not os.path.exists(self.__dir):

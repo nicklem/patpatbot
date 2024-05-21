@@ -1,14 +1,14 @@
+from .Scraper import Scraper
 from bs4 import BeautifulSoup
 import json
 import requests
-from .scraper import Scraper
 
 
 class GoogleSearch:
     def __init__(self):
         self.__scraper = Scraper()
 
-    def gather_info(self, query) -> str:
+    def execute(self, query) -> str:
         """
         Perform a Google search and scrape the results.
 
@@ -34,4 +34,4 @@ class GoogleSearch:
         )
         soup = BeautifulSoup(response.text, 'html.parser')
         links = soup.select('#search span>a')  # TODO eventually make this more robust
-        return [link['href'] for link in links[:3]]
+        return [link['href'] for link in links[:3]]  # TODO make this configurable. Note that some results may overflow the context window.

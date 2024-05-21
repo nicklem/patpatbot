@@ -1,4 +1,4 @@
-from patpatbot.git import RepoManager
+from patpatbot.RepoManager import RepoManager
 import unittest
 
 # TODO: Add tests for the RepoManager class

@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-from patpatbot.gpt import Gpt
+from patpatbot.Gpt import Gpt
 import unittest
 
 load_dotenv()
@@ -15,22 +15,17 @@ class TestGpt(unittest.TestCase):
 
     def test_gpt_accepts_hardcoded_input(self):
         name = "TestBot"
-        output = self.__gpt.execute_prompt([
-            ("system", "Your name is {name}.".format(name=name)),
-            ("human", "What is your name? Print **only** your name."),
-        ])
+        output = self.__gpt.execute(
+            prompt_system="Your name is {name}.".format(name=name),
+            prompt_human="What is your name? Print **only** your name.",
+        )
         self.assertEqual(name, output)
 
     def test_gpt_accepts_formatted_input(self):
         name = "TestBot"
-        output = self.__gpt.execute_prompt(
-            [
-                ("system", "Your name is {name}."),
-                ("human", "{user_input}"),
-            ],
-            {
-                "name": name,
-                "user_input": "What is your name? Print **only** your name."
-            }
+        output = self.__gpt.execute(
+            prompt_system="Your name is {name}.",
+            prompt_human="What is your name? Print **only** your name.",
+            prompt_data={"name": name},
         )
         self.assertEqual(name, output)
