@@ -1,5 +1,5 @@
 # Pat Pat Bot
 
-Codacy pattern doc generator for Python.
+Codacy pattern doc generator.
 
 TODO - Add more details

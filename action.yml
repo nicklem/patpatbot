@@ -1,0 +1,11 @@
+name: 'Codacy pattern documentation generator'
+description: 'A GitHub Action to generate Codacy pattern documentation using GPT'
+inputs:
+  docs_glob:
+    description: 'Glob pattern to search for documentation files'
+    required: true
+    default: 'docs/description/*.md'
+runs:
+  using: 'node20'
+  main: 'dist/index.js'
+
