@@ -1,0 +1,24 @@
+name: Read Markdown Files
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+
+      - name: Build the script
+        run: |
+          npm install
+          npm run build
+
+      - name: Run the script
+        run: node dist/main.js
