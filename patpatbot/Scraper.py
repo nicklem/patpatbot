@@ -28,7 +28,7 @@ class Scraper:
         try:
             html = await self._fetch(session, url)
         except Exception as _:
-            print(f"Failed to fetch {url}")
+            pass  # TODO log this?
         finally:
             return self._parse_html(html)
 

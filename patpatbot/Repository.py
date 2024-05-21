@@ -13,17 +13,6 @@ class Repository:
         self.__doc_file_data = self._load_doc_file_data(docs_glob)
         self._clone_or_pull()
 
-    def _load_doc_file_data(self, docs_glob):
-        return [
-            DocFileData(
-                tool=self.__name,
-                path=doc,
-                pattern_filename=basename(doc),
-                pattern_description=open(doc, "r").read()
-            )
-            for doc in glob(docs_glob)
-        ]
-
     def get_doc_file_data(self) -> list[DocFileData]:
         return self.__doc_file_data
 
@@ -39,6 +28,17 @@ class Repository:
             docs_glob=join(repo_dir, repo_settings["docs_glob"])
         )
 
+    def _load_doc_file_data(self, docs_glob):
+        return [
+            DocFileData(
+                tool=self.__name,
+                path=doc,
+                pattern_filename=basename(doc),
+                pattern_description=open(doc, "r").read()
+            )
+            for doc in glob(docs_glob)
+        ]
+
     @staticmethod
     def _repo_name_from_url(url):
         return re.match(r".*/(.*)\.git", url).group(1)
@@ -53,5 +53,3 @@ class Repository:
         # TODO more efficient to clone/pull on demand
         # else:
         #     Repo(self.__dir).remotes.origin.pull()
-
-

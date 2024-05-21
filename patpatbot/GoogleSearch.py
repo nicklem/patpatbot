@@ -17,6 +17,7 @@ class GoogleSearch:
         """
         result_urls = self._search(query)
         result_data = self.__scraper.scrape(result_urls)
+
         return json.dumps(result_data)
 
     @staticmethod

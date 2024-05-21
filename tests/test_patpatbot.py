@@ -29,6 +29,6 @@ class TestPatPatBot(unittest.TestCase):
 
         self.__bot.set_source_doc_data(sample_doc_data)
         self.__bot.process_source_doc()
-        result = self.__bot.get_prompt_result('examine')
+        result = self.__bot.get_prompt_data('examine')
 
         self.assertGreater(len(result), 0)  # TODO improve this test

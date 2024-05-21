@@ -11,7 +11,7 @@ class DocFileData:
         self.pattern_filename = pattern_filename
         self.pattern_description = pattern_description
 
-    def to_dict(self, key_prefix=""):
+    def to_dict(self, key_prefix="init__"):
         output = {}
         for attr in dir(self):
             if not callable(attr) and not attr.startswith("__"):
