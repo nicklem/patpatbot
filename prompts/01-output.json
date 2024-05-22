@@ -1,0 +1,5 @@
+{
+  "tool": "gpt",
+  "prompt_system": "You're a senior technical writer at a software company, specializing in static analysis tools.",
+  "prompt_human": "Investigate the pattern `{input__pattern_description}` from static analysis tool `{input__tool}`. The pattern title is `{input__pattern_filename}`. A Google search yielded the following unstructured data which may be relevant: ```{search_pattern_info}```.\nYOUR TASK: This will be used as-is in pattern documentation. Be mindful of that and adopt a professional, friendly tone. Don't mention the name of the pattern in the description. Provide three things: \n1) An updated, descriptive, short *title* \n2) A brief *summary* of about 10 words for display in a list in the UI \n3) A thorough yet concise *description* of the pattern's meaning and suggested action, all in about 50 words. If appropriate, append a short code example, enclosed in triple backticks, describing the issue and solution.\nWrap your answer in XML tags with the following format: `<title>This is the updated title</title><summary>This is a brief summary.</summary><description>This is a more thorough description.</description>`."
+}
