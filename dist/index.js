@@ -47044,7 +47044,7 @@ exports["default"] = Scraper;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.PATHS_PROMPTS = exports.PATHS_DOCS = exports.ENV_REPO_NAME = exports.ENV_DOCS_GLOB = exports.ENV_OPENAI_API_KEY = void 0;
+exports.PATHS_PROMPTS = exports.ENV_REPO_NAME = exports.ENV_DOCS_GLOB = exports.ENV_OPENAI_API_KEY = void 0;
 const dotenv_1 = __nccwpck_require__(36406);
 const glob_1 = __nccwpck_require__(65862);
 const path_1 = __nccwpck_require__(71017);
@@ -47056,9 +47056,7 @@ const ENV_DOCS_GLOB = process.env.INPUT_DOCS_GLOB;
 exports.ENV_DOCS_GLOB = ENV_DOCS_GLOB;
 const ENV_REPO_NAME = process.env.REPO_NAME;
 exports.ENV_REPO_NAME = ENV_REPO_NAME;
-const PATHS_DOCS = glob_1.glob.sync(ENV_DOCS_GLOB || '');
-exports.PATHS_DOCS = PATHS_DOCS;
-const PATHS_PROMPTS = glob_1.glob.sync((0, path_1.join)(process.cwd(), "prompts", "*.json")).sort();
+const PATHS_PROMPTS = glob_1.glob.sync((0, path_1.join)(__dirname, "..", "prompts", "*.json")).sort();
 exports.PATHS_PROMPTS = PATHS_PROMPTS;
 
 
