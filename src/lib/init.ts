@@ -8,7 +8,7 @@ import github from "@actions/github";
 config();
 
 const ENV_OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-const ENV_REPO_NAME = github?.context.repo.repo || process.env.REPO_NAME;
+const ENV_REPO_NAME = process.env.GITHUB_REPOSITORY.split("/")[1];
 
 // TODO Default values don't work with this function. Should they?
 const ENV_DOCS_GLOB =
