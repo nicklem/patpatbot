@@ -1,6 +1,6 @@
-import { basename } from 'path';
+import {basename} from 'path';
 import {readFileSync, writeFileSync} from 'fs';
-import { globSync } from 'glob';
+import {globSync} from 'glob';
 import DocumentationFile from './DocumentationFile';
 import logger from "./logging";
 import {PatPatBotOutput} from "./types";
@@ -53,7 +53,7 @@ class Repository {
             .find((d) => d.patternId === doc.data.patternId);
         if (docDescription) {
             docDescription.title = outputData.title;
-            docDescription.description = outputData.description;
+            docDescription.description = outputData.summary; // This is correct. They use different keys.
         }
 
         // Update doc pattern in memory
@@ -61,18 +61,22 @@ class Repository {
             .find((d) => d.patternId === doc.data.patternId);
         if (docPattern) {
             docPattern.title = outputData.title;
-            docPattern.description = outputData.description;
+            docPattern.description = outputData.summary; // This is correct. They use different keys.
         }
     }
 
     saveDescriptionsAndPatterns() {
-        // Update doc descriptions file
-        const docDescriptions = JSON.stringify(this.docDescriptions, null, 2);
-        writeFileSync(this.docDescriptionPath, docDescriptions, 'utf-8');
+        writeFileSync(
+            this.docDescriptionPath,
+            JSON.stringify(this.docDescriptions, null, 2),
+            'utf-8'
+        );
 
-        // Update doc patterns file
-        const docPatterns = JSON.stringify(this.docPatterns, null, 2);
-        writeFileSync(this.docPatternsPath, docPatterns, 'utf-8');
+        writeFileSync(
+            this.docPatternsPath,
+            JSON.stringify(this.docPatterns, null, 2),
+            'utf-8'
+        );
     }
 
     private loadDocFileData(docFilePaths: string): DocumentationFile[] {

@@ -18,6 +18,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/string-format": "^2.0.3",
+    "@types/underscore": "^1.11.15",
     "@types/xml2js": "^0.4.14",
     "typescript": "^5.4.5"
   },
@@ -32,7 +33,6 @@
     "glob": "^10.3.15",
     "string-format": "^2.0.0",
     "string-template": "^1.0.0",
-    "winston": "^3.13.0",
-    "xml2js": "^0.6.2"
+    "winston": "^3.13.0"
   }
 }

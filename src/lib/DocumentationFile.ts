@@ -14,8 +14,12 @@ class DocumentationFile {
         }, {});
     }
 
-    get data(): Record<string, string> {
+    get dataPrefixed(): Record<string, string> {
         return this.fileDataPrefixed;
+    }
+
+    get data(): DocumentationFileData {
+        return this.fileData;
     }
 
     update(fileContents: string) {

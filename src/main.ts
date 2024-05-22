@@ -24,14 +24,14 @@ async function run() {
         ENV_DOC_PATTERNS_PATH,
     );
 
-    const maxIdx = Math.min(repo.docs.length, 1); // TODO remove this
+    const maxIdx = Math.min(repo.docs.length, 10); // TODO remove this
     for (let idx = 0; idx < maxIdx; idx++) {
         const doc = repo.docs[idx];
-        logger.info(`Processing pattern doc ${idx + 1} of ${repo.docs.length}. Content:\n%o`, doc.data);
+        logger.info(`Processing pattern ${idx + 1} of ${repo.docs.length}:\n%o`, doc.dataPrefixed);
         bot.setSourceDocData(doc);
         await bot.processSourceDoc();
         const outputData = bot.getOutputData();
-        logger.info(`Saving improved pattern doc data:\n%o`, outputData);
+        logger.info(`Saving GPT-improved doc data:\n%o`, outputData);
         repo.updateDoc(doc, outputData);
         repo.updateDescriptionsAndPatterns(doc, outputData);
     }

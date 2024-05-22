@@ -4,7 +4,6 @@ import DocumentationFile from './DocumentationFile';
 import GoogleSearch from './GoogleSearch';
 import Gpt from './Gpt';
 import logger from "./logging";
-import {parseString} from 'xml2js';
 import {PatPatBotOutput} from "./types";
 
 const OUTPUT_PROMPT_ID = 'output';
@@ -24,7 +23,7 @@ class PatPatBot {
     }
 
     setSourceDocData(docFileData: DocumentationFile) {
-        this.promptData = docFileData.data;
+        this.promptData = docFileData.dataPrefixed;
     }
 
     async processSourceDoc() {
@@ -75,7 +74,7 @@ class PatPatBot {
             this.promptData,
             promptTemplate.promptSystem,
         );
-        const answerObj = await this.extractDataFromAnswer(answerStr, promptTemplate.id);
+        const answerObj = this.extractDataFromAnswer(answerStr, promptTemplate.id);
         this.promptData = {...this.promptData, ...answerObj};
     }
 
@@ -87,31 +86,19 @@ class PatPatBot {
      *
      * @returns - Extracted data as a plain JS object.
      */
-    private async extractDataFromAnswer(
+    private extractDataFromAnswer(
         answer: string,
         promptTemplateId: string
-    ): Promise<Record<string, string>> {
-        return new Promise((resolve, reject) => {
-            parseString(
-                `<root>${answer}</root>`,
-                (err, result: Record<string, any>) => {
-                    if (err) {
-                        reject(err);
-                    }
-
-                    const output = {};
-
-                    for (const key in result.root) {
-                        if (key === '_') {
-                            continue;
-                        }
-
-                        output[`${promptTemplateId}__${key}`] = String(result.root[key]?.[0] || '').trim();
-                    }
-
-                    resolve(output);
-                });
-        });
+    ): Record<string, string> {
+        const tagsMatch = answer.matchAll(/<([a-zA-Z0-9\-_]+)>/g);
+        const output: Record<string, string> = {};
+        for (const match of tagsMatch) {
+            const tag = match[1];
+            const tagMatch = answer.match(new RegExp(`<${tag}>[^]+</${tag}>`, 'g'));
+            output[`${promptTemplateId}__${tag}`] = tagMatch[0]
+                .replace(new RegExp(`<${tag}>|</${tag}>`, 'g'), '');
+        }
+        return output;
     }
 }
 
