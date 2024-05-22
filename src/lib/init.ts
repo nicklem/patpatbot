@@ -8,7 +8,6 @@ import github from "@actions/github";
 config();
 
 const ENV_OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-console.log(github);
 const ENV_REPO_NAME = github?.context.repo.repo || process.env.REPO_NAME;
 
 // TODO Default values don't work with this function. Should they?
@@ -21,6 +20,8 @@ const ENV_DOC_DESCRIPTIONS_PATH =
 const ENV_DOC_PATTERNS_PATH =
     getInput('doc_patterns_path')
     || "docs/patterns.json";
+
+console.log(ENV_REPO_NAME, ENV_DOCS_GLOB, ENV_DOC_DESCRIPTIONS_PATH, ENV_DOC_PATTERNS_PATH);
 
 const PATHS_PROMPTS = glob.sync(join(__dirname, "..", "prompts", "*.json")).sort();
 
