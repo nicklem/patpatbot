@@ -23,7 +23,7 @@ jobs:
       - name: Run the script
         run: |
           printenv
-          npm run start
+          node dist/main.js
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           REPO_NAME: ${{ github.event.repository.name }}
