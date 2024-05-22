@@ -1,0 +1,430 @@
+[
+  {
+    "patternId": "rulesets-cleancode.xml-ElseExpression",
+    "title": "Avoid else expressions",
+    "description": "Use return statements instead of else expression",
+    "timeToFix": 15
+  },
+  {
+    "patternId": "rulesets-cleancode.xml-StaticAccess",
+    "title": "Avoid static access",
+    "description": "Static access leads to hard to test code",
+    "timeToFix": 15,
+    "parameters": [
+      {
+        "name": "exceptions",
+        "description": "Comma-separated class name list of exceptions"
+      }
+    ]
+  },
+  {
+    "patternId": "rulesets-codesize.xml-CyclomaticComplexity",
+    "title": "Cyclomatic complexity",
+    "description": "This pattern reports methods with high cyclomatic complexity",
+    "parameters": [
+      {
+        "name": "reportLevel",
+        "description": "The Cyclomatic Complexity reporting threshold"
+      },
+      {
+        "name": "showClassesComplexity",
+        "description": "Indicate if class average violation should be included"
+      },
+      {
+        "name": "showMethodsComplexity",
+        "description": "Indicate if method average violation should be included"
+      }
+    ],
+    "timeToFix": 30
+  },
+  {
+    "patternId": "rulesets-codesize.xml-NPathComplexity",
+    "title": "NPath complexity",
+    "description": "This pattern reports methods with a large number of possible paths",
+    "parameters": [
+      {
+        "name": "minimum",
+        "description": "Reporting threshold"
+      }
+    ],
+    "timeToFix": 30
+  },
+  {
+    "patternId": "rulesets-codesize.xml-ExcessiveMethodLength",
+    "title": "Excessive method length",
+    "description": "This pattern reports excessively long methods.",
+    "parameters": [
+      {
+        "name": "minimum",
+        "description": "Reporting threshold for the number of lines in a method"
+      }
+    ],
+    "timeToFix": 15
+  },
+  {
+    "patternId": "rulesets-codesize.xml-ExcessiveClassLength",
+    "title": "Excessive class length",
+    "description": "This pattern reports excessively long classes.",
+    "parameters": [
+      {
+        "name": "minimum",
+        "description": "Reporting threshold for the number of lines in a class"
+      }
+    ],
+    "timeToFix": 15
+  },
+  {
+    "patternId": "rulesets-codesize.xml-ExcessiveParameterList",
+    "title": "Excessive parameters",
+    "description": "This pattern reports methods with a high number of parameters.",
+    "parameters": [
+      {
+        "name": "minimum",
+        "description": "Reporting threshold for the number of arguments in a method"
+      }
+    ],
+    "timeToFix": 15
+  },
+  {
+    "patternId": "rulesets-codesize.xml-ExcessivePublicCount",
+    "title": "Excessive public attributes",
+    "description": "This pattern reports classes with a high number of public methods and attributes.",
+    "parameters": [
+      {
+        "name": "minimum",
+        "description": "Reporting threshold for the number of public methods and attributes in a class"
+      }
+    ],
+    "timeToFix": 15
+  },
+  {
+    "patternId": "rulesets-codesize.xml-TooManyFields",
+    "title": "Excessive fields",
+    "description": "This pattern reports classes with a high number of fields.",
+    "parameters": [
+      {
+        "name": "maxfields",
+        "description": "Reporting threshold for the number of fields in a class"
+      }
+    ],
+    "timeToFix": 15
+  },
+  {
+    "patternId": "rulesets-codesize.xml-TooManyMethods",
+    "title": "Excessive methods",
+    "description": "This pattern reports classes with a high number of methods.",
+    "parameters": [
+      {
+        "name": "maxmethods",
+        "description": "Reporting threshold for the number of methods in a class"
+      }
+    ],
+    "timeToFix": 15
+  },
+  {
+    "patternId": "rulesets-codesize.xml-ExcessiveClassComplexity",
+    "title": "Weighted method count",
+    "description": "This pattern reports classes with a high weighted method count.",
+    "parameters": [
+      {
+        "name": "maximum",
+        "description": "The maximum WMC tolerable for a class"
+      }
+    ],
+    "timeToFix": 10
+  },
+  {
+    "patternId": "rulesets-controversial.xml-Superglobals",
+    "title": "Encapsulate Superglobals",
+    "description": "Prohibit direct access to superglobal variables",
+    "timeToFix": 10
+  },
+  {
+    "patternId": "rulesets-controversial.xml-CamelCaseClassName",
+    "title": "Enforce CamelCase in classes",
+    "description": "Requires all class names to use the CamelCase style",
+    "timeToFix": 5
+  },
+  {
+    "patternId": "rulesets-controversial.xml-CamelCasePropertyName",
+    "title": "Enforce CamelCase in properties",
+    "description": "Requires all property names to use the CamelCase style",
+    "timeToFix": 5
+  },
+  {
+    "patternId": "rulesets-controversial.xml-CamelCaseMethodName",
+    "title": "Enforce CamelCase in methods",
+    "description": "Requires all method names to use the CamelCase style",
+    "timeToFix": 5
+  },
+  {
+    "patternId": "rulesets-controversial.xml-CamelCaseParameterName",
+    "title": "Enforce CamelCase in parameters",
+    "description": "Requires all parameter names to use the CamelCase style",
+    "timeToFix": 5
+  },
+  {
+    "patternId": "rulesets-controversial.xml-CamelCaseVariableName",
+    "title": "Enforce CamelCase in variables",
+    "description": "Requires all variable names to use the CamelCase style",
+    "timeToFix": 5
+  },
+  {
+    "patternId": "rulesets-design.xml-ExitExpression",
+    "title": "Prohibit exit-expression",
+    "description": "Prohibit the use of exit-expressions within regular code, it is not testable",
+    "timeToFix": 10
+  },
+  {
+    "patternId": "rulesets-design.xml-EvalExpression",
+    "title": "Prohibit eval expression",
+    "description": "Prohibit the use of eval, it is untestable, a security risk and bad practice",
+    "timeToFix": 15
+  },
+  {
+    "patternId": "rulesets-design.xml-GotoStatement",
+    "title": "Prohibit goto",
+    "description": "Prohibit the use of goto, it makes the code harder to read nearly impossible to understand",
+    "timeToFix": 10
+  },
+  {
+    "patternId": "rulesets-design.xml-NumberOfChildren",
+    "title": "Excessive class children number",
+    "description": "Avoid classes with too many children",
+    "parameters": [
+      {
+        "name": "minimum",
+        "description": "Maximum number of acceptable child classes"
+      }
+    ],
+    "timeToFix": 5
+  },
+  {
+    "patternId": "rulesets-design.xml-DepthOfInheritance",
+    "title": "Excessive class parents",
+    "description": "Avoid classes with too many parents parents",
+    "parameters": [
+      {
+        "name": "minimum",
+        "description": "Maximum number of acceptable parent classes"
+      }
+    ],
+    "timeToFix": 5
+  },
+  {
+    "patternId": "rulesets-unusedcode.xml-UnusedPrivateField",
+    "title": "Prohibit unused private variables",
+    "description": "Prohibit the definition or assignment of unused private variables",
+    "timeToFix": 5
+  },
+  {
+    "patternId": "rulesets-unusedcode.xml-UnusedLocalVariable",
+    "title": "Prohibit unused variables",
+    "description": "Prohibit the definition or assignment of unused local variables",
+    "timeToFix": 5
+  },
+  {
+    "patternId": "rulesets-unusedcode.xml-UnusedPrivateMethod",
+    "title": "Prohibit unused private methods",
+    "description": "Prohibit the definition or assignment of unused private methods",
+    "timeToFix": 5
+  },
+  {
+    "patternId": "rulesets-unusedcode.xml-UnusedFormalParameter",
+    "title": "Prohibit unused arguments",
+    "description": "Prohibit the definition of unused parameters on methods or constructors",
+    "timeToFix": 5
+  },
+  {
+    "patternId": "rulesets-naming.xml-ShortVariable",
+    "title": "Prohibit short variable names",
+    "description": "Detects when a field, local, or parameter has a very short name.",
+    "parameters": [
+      {
+        "name": "minimum",
+        "description": "Minimum length for a variable"
+      },
+      {
+        "name": "exceptions",
+        "description": "Comma-separated list of exceptions"
+      }
+    ],
+    "timeToFix": 5
+  },
+  {
+    "patternId": "rulesets-naming.xml-LongVariable",
+    "title": "Prohibit long variable names",
+    "description": "Detects when a field, local, or parameter has a very long name.",
+    "parameters": [
+      {
+        "name": "maximum",
+        "description": "Maximum length for a variable"
+      }
+    ],
+    "timeToFix": 5
+  },
+  {
+    "patternId": "rulesets-naming.xml-LongClassName",
+    "title": "Avoid excessively long class names",
+    "description": "Detects when classes or interfaces are declared with excessively long names.",
+    "parameters": [
+      {
+        "name": "maximum",
+        "description": "The class name length reporting threshold"
+      },
+      {
+        "name": "subtract-prefixes",
+        "description": "Comma-separated list of prefixes that will not count in the length of the class name. Only the first matching prefix will be subtracted."
+      },
+      {
+        "name": "subtract-suffixes",
+        "description": "Comma-separated list of suffixes that will not count in the length of the class name. Only the first matching suffix will be subtracted."
+      }
+    ],
+    "timeToFix": 5
+  },
+  {
+    "patternId": "rulesets-naming.xml-ShortClassName",
+    "title": "Avoid classes with short names",
+    "description": "Detects when classes or interfaces have a very short name.",
+    "parameters": [
+      {
+        "name": "minimum",
+        "description": "The class name length reporting threshold"
+      },
+      {
+        "name": "exceptions",
+        "description": "Comma-separated list of exceptions. Example: Log,URL,FTP"
+      }
+    ],
+    "timeToFix": 5
+  },
+  {
+    "patternId": "rulesets-naming.xml-ShortMethodName",
+    "title": "Prohibit short method names",
+    "description": "Detects when very short method names are used.",
+    "parameters": [
+      {
+        "name": "minimum",
+        "description": "Minimum length for a method"
+      },
+      {
+        "name": "exceptions",
+        "description": "Comma-separated list of exceptions"
+      }
+    ],
+    "timeToFix": 5
+  },
+  {
+    "patternId": "rulesets-naming.xml-ConstructorWithNameAsEnclosingClass",
+    "title": "Prohibit constructor with class name",
+    "description": "In PHP 5, a constructor should not have the same name as the enclosing class.",
+    "timeToFix": 5
+  },
+  {
+    "patternId": "rulesets-naming.xml-ConstantNamingConventions",
+    "title": "Enforce uppercase constants",
+    "description": "Constant names should always be defined in uppercase.",
+    "timeToFix": 5
+  },
+  {
+    "patternId": "rulesets-naming.xml-BooleanGetMethodName",
+    "title": "Enforce boolean naming convention",
+    "description": "Boolean methods should be called 'isX()' or 'hasX()'",
+    "timeToFix": 5
+  },
+  {
+    "patternId": "rulesets-design.xml-CouplingBetweenObjects",
+    "parameters": [
+      {
+        "name": "maximum",
+        "description": "Maximum number of acceptable dependencies."
+      }
+    ],
+    "title": "Prohibit of coupling between objects",
+    "description": "A class needs to have low coupling",
+    "timeToFix": 5
+  },
+  {
+    "patternId": "rulesets-design.xml-DevelopmentCodeFragment",
+    "parameters": [
+      {
+        "name": "unwanted-functions",
+        "description": "Comma separated list of suspect function images."
+      },
+      {
+        "name": "ignore-namespaces",
+        "description": "Ignore namespaces when looking for dev. fragments"
+      }
+    ],
+    "title": "Prohibit calling debug function which is mostly used during development.",
+    "description": "Functions like var_dump(), print_r() etc. are normally only used during development and therefore such calls in production code are a good indicator that they were just forgotten.",
+    "timeToFix": 5
+  },
+  {
+  "patternId": "rulesets-design.xml-EmptyCatchBlock",
+  "parameters": [],
+  "title": "Usually empty try-catch",
+  "description": "Usually empty try-catch is a bad idea because you are silently swallowing an error condition and then continuing execution.",
+  "timeToFix": 5
+  },
+  {
+    "patternId": "rulesets-design.xml-CountInLoopExpression",
+    "parameters": [],
+    "title": "Using count/sizeof in loops expressions",
+    "description": "Using count/sizeof in loops expressions is considered bad practice and is a potential source of many bugs, especially when the loop manipulates an array, as count happens on each iteration.",
+    "timeToFix": 5
+  },
+  {
+    "patternId": "rulesets-cleancode.xml-BooleanArgumentFlag",
+    "title": "A boolean flag argument is a reliable indicator for a violation of the Single Responsibility Principle (SRP)",
+    "description": "You can fix this problem by extracting the logic in the boolean flag into its own class or method",
+    "timeToFix": 5
+  },
+  {
+    "patternId": "rulesets-cleancode.xml-IfStatementAssignment",
+    "title": "Assignments in if clauses and the like are considered a code smell",
+    "description": "Assignments in PHP return the right operand as their result. In many cases, this is an expected behavior, but can lead to many difficult to spot bugs, especially when the right operand could result in zero, null or an empty string and the like",
+    "timeToFix": 5
+  },
+  {
+    "patternId": "rulesets-cleancode.xml-DuplicatedArrayKey",
+    "title": "Defining another value for the same key in an array literal overrides the previous key/value, which makes it effectively an unused code",
+    "description": "If it's known from the beginning that the key will have different value, there is usually no point in defining first one",
+    "timeToFix": 5
+  },
+  {
+    "patternId": "rulesets-cleancode.xml-ErrorControlOperator",
+    "title": "Error suppression should be avoided if possible as it doesn't just suppress the error that you are trying to stop",
+    "description": "Error suppression should be avoided if possible as it doesn't just suppress the error, that you are trying to stop, but will also suppress errors that you didn't predict would ever occur. Consider changing error_reporting() level and/or setting up your own error handler",
+    "timeToFix": 5
+  },
+  {
+    "patternId": "rulesets-cleancode.xml-MissingImport",
+    "title": "Importing all external classes in a file",
+    "description": "Importing all external classes in a file through use statements makes them clearly visible",
+    "timeToFix": 5
+  },
+  {
+    "patternId": "rulesets-cleancode.xml-UndefinedVariable",
+    "title": "Detects when a variable is used that has not been defined before",
+    "description": "Detects when a variable is used that has not been defined before",
+    "timeToFix": 5
+  },
+  {
+    "patternId": "rulesets-codesize.xml-TooManyPublicMethods",
+    "title": "Excessive public methods",
+    "description": "This pattern reports classes with a high number of public methods.",
+    "parameters": [
+      {
+        "name": "maxmethods",
+        "description": "The method count reporting threshold"
+      },
+      {
+        "name": "ignorepattern",
+        "description": "Ignore methods matching this regex"
+      }
+    ],
+    "timeToFix": 5
+  }
+]

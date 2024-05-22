@@ -53265,7 +53265,7 @@ class DocumentationFile {
     constructor(fileData, keyPrefix = "input__") {
         this.fileData = fileData;
         this.fileDataPrefixed = Object.entries(fileData).reduce((acc, [key, value]) => {
-            acc[keyPrefix + snakeCase(key)] = value;
+            acc[keyPrefix + key] = value;
             return acc;
         }, {});
     }
@@ -53273,12 +53273,9 @@ class DocumentationFile {
         return this.fileDataPrefixed;
     }
     update(fileContents) {
-        (0, fs_1.writeFileSync)(this.fileData.path, fileContents, 'utf-8');
+        (0, fs_1.writeFileSync)(this.fileData.path, fileContents + '\n', 'utf-8');
     }
 }
-const snakeCase = (str) => str
-    .replace(/([a-z])([A-Z])/g, '$1_$2')
-    .toLowerCase();
 exports["default"] = DocumentationFile;
 
 
@@ -53508,7 +53505,7 @@ class PatPatBot {
                         if (key === '_') {
                             continue;
                         }
-                        output[`${promptTemplateId}__${key}`] = (_a = result.root[key]) === null || _a === void 0 ? void 0 : _a[0];
+                        output[`${promptTemplateId}__${key}`] = String(((_a = result.root[key]) === null || _a === void 0 ? void 0 : _a[0]) || '').trim();
                     }
                     resolve(output);
                 });
@@ -53598,7 +53595,7 @@ class Repository {
         return (0, glob_1.globSync)(docFilePaths).map(docFilePath => new DocumentationFile_1.default({
             tool: this.name,
             path: docFilePath,
-            patternFilename: (0, path_1.basename)(docFilePath),
+            patternId: (0, path_1.basename)(docFilePath),
             patternDescription: (0, fs_1.readFileSync)(docFilePath, 'utf-8')
         }));
     }

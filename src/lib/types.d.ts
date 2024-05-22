@@ -7,6 +7,6 @@ export type PatPatBotOutput = {
 export type DocumentationFileData = {
     tool: string;
     path: string;
-    patternFilename: string;
+    patternId: string;
     patternDescription: string;
 };

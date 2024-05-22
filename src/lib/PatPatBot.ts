@@ -106,7 +106,7 @@ class PatPatBot {
                             continue;
                         }
 
-                        output[`${promptTemplateId}__${key}`] = result.root[key]?.[0];
+                        output[`${promptTemplateId}__${key}`] = String(result.root[key]?.[0] || '').trim();
                     }
 
                     resolve(output);

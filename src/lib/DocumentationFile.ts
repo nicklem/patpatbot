@@ -9,7 +9,7 @@ class DocumentationFile {
     constructor(fileData: DocumentationFileData, keyPrefix="input__") {
         this.fileData = fileData;
         this.fileDataPrefixed = Object.entries(fileData).reduce((acc, [key, value]) => {
-            acc[keyPrefix + snakeCase(key)] = value;
+            acc[keyPrefix + key] = value;
             return acc;
         }, {});
     }
@@ -19,12 +19,8 @@ class DocumentationFile {
     }
 
     update(fileContents: string) {
-        writeFileSync(this.fileData.path, fileContents, 'utf-8');
+        writeFileSync(this.fileData.path, fileContents + '\n', 'utf-8');
     }
 }
-
-const snakeCase = (str: string) => str
-    .replace(/([a-z])([A-Z])/g, '$1_$2')
-    .toLowerCase();
 
 export default DocumentationFile;

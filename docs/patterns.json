@@ -1,0 +1,525 @@
+{
+  "name": "phpmd",
+  "version": "2.14.1",
+  "patterns": [
+    {
+      "patternId": "rulesets-cleancode.xml-ElseExpression",
+      "category": "CodeStyle",
+      "title": "Avoid else expressions",
+      "description": "Use return statements instead of else expression",
+      "level": "Info",
+      "enabled": true
+    },
+    {
+      "patternId": "rulesets-cleancode.xml-StaticAccess",
+      "category": "CodeStyle",
+      "title": "Avoid static access",
+      "description": "Static access leads to hard to test code",
+      "level": "Info",
+      "parameters": [
+        {
+          "name": "exceptions",
+          "default": ""
+        }
+      ],
+      "enabled": true
+    },
+    {
+      "patternId": "rulesets-cleancode.xml-BooleanArgumentFlag",
+      "category": "CodeStyle",
+      "title": "The method has a boolean flag argument, which is a certain sign of a Single Responsibility Principle violation.",
+      "description": "A boolean flag argument is a reliable indicator for a violation of the Single Responsibility Principle (SRP). You can fix this problem by extracting the logic in the boolean flag into its own class or method.",
+      "level": "Info",
+      "enabled": false
+    },
+    {
+      "patternId": "rulesets-cleancode.xml-IfStatementAssignment",
+      "category": "CodeStyle",
+      "title": "Avoid assigning values to variables in if clauses and the like (line '{0}', column '{1}').",
+      "description": "Assignments in if clauses and the like are considered a code smell. Assignments in PHP return the right operand as their result. In many cases, this is an expected behavior, but can lead to many difficult to spot bugs, especially when the right operand could result in zero, null or an empty string and the like.",
+      "level": "Info",
+      "enabled": false
+    },
+    {
+    "patternId": "rulesets-cleancode.xml-DuplicatedArrayKey",
+    "category": "CodeStyle",
+    "title": "Duplicated array key {0}, first declared at line {1}.",
+    "description": "Defining another value for the same key in an array literal overrides the previous key/value, which makes it effectively an unused code. If it's known from the beginning that the key will have different value, there is usually no point in defining first one.",
+    "level": "Info",
+    "enabled": false
+    },
+    {
+      "patternId": "rulesets-cleancode.xml-UndefinedVariable",
+      "category": "CodeStyle",
+      "title": "Avoid using undefined variables such as '{0}' which will lead to PHP notices.",
+      "description": "Detects when a variable is used that has not been defined before.",
+      "level": "Info",
+      "enabled": true
+    },
+    {
+      "patternId": "rulesets-cleancode.xml-MissingImport",
+      "category": "CodeStyle",
+      "title": "Missing class import via use statement (line '{0}', column '{1}').",
+      "description": "Importing all external classes in a file through use statements makes them clearly visible.",
+      "level": "Info",
+      "enabled": false
+    },
+    {
+      "patternId": "rulesets-cleancode.xml-ErrorControlOperator",
+      "category": "CodeStyle",
+      "title": "Remove error control operator '@' on line {0}.",
+      "description": "Error suppression should be avoided if possible as it doesn't just suppress the error, that you are trying to stop, but will also suppress errors that you didn't predict would ever occur. Consider changing error_reporting() level and/or setting up your own error handler.",
+      "level": "Info",
+      "enabled": false
+    },
+    {
+      "patternId": "rulesets-codesize.xml-CyclomaticComplexity",
+      "category": "CodeStyle",
+      "title": "Cyclomatic complexity",
+      "description": "This pattern reports methods with high cyclomatic complexity",
+      "parameters": [
+        {
+          "name": "reportLevel",
+          "default": 10
+        },
+        {
+          "name": "showClassesComplexity",
+          "default": true
+        },
+        {
+          "name": "showMethodsComplexity",
+          "default": true
+        }
+      ],
+      "level": "Warning",
+      "enabled": true
+    },
+    {
+      "patternId": "rulesets-codesize.xml-NPathComplexity",
+      "category": "CodeStyle",
+      "title": "NPath complexity",
+      "description": "This pattern reports methods with a large number of possible paths",
+      "parameters": [
+        {
+          "name": "minimum",
+          "default": 200
+        }
+      ],
+      "level": "Warning",
+      "enabled": true
+    },
+    {
+      "patternId": "rulesets-codesize.xml-ExcessiveMethodLength",
+      "category": "CodeStyle",
+      "title": "Excessive method length",
+      "description": "This pattern reports excessively long methods.",
+      "parameters": [
+        {
+          "name": "minimum",
+          "default": 100
+        }
+      ],
+      "level": "Warning",
+      "enabled": true
+    },
+    {
+      "patternId": "rulesets-codesize.xml-ExcessiveClassLength",
+      "category": "CodeStyle",
+      "title": "Excessive class length",
+      "description": "This pattern reports excessively long classes.",
+      "parameters": [
+        {
+          "name": "minimum",
+          "default": 1000
+        }
+      ],
+      "level": "Warning",
+      "enabled": true
+    },
+    {
+      "patternId": "rulesets-codesize.xml-ExcessiveParameterList",
+      "category": "CodeStyle",
+      "title": "Excessive parameters",
+      "description": "This pattern reports methods with a high number of parameters.",
+      "parameters": [
+        {
+          "name": "minimum",
+          "default": 10
+        }
+      ],
+      "level": "Warning",
+      "enabled": true
+    },
+    {
+      "patternId": "rulesets-codesize.xml-ExcessivePublicCount",
+      "category": "CodeStyle",
+      "title": "Excessive public attributes",
+      "description": "This pattern reports classes with a high number of public methods and attributes.",
+      "parameters": [
+        {
+          "name": "minimum",
+          "default": 45
+        }
+      ],
+      "level": "Warning",
+      "enabled": true
+    },
+    {
+      "patternId": "rulesets-codesize.xml-TooManyFields",
+      "category": "CodeStyle",
+      "title": "Excessive fields",
+      "description": "This pattern reports classes with a high number of fields.",
+      "parameters": [
+        {
+          "name": "maxfields",
+          "default": 15
+        }
+      ],
+      "level": "Warning",
+      "enabled": true
+    },
+    {
+      "patternId": "rulesets-codesize.xml-TooManyMethods",
+      "category": "CodeStyle",
+      "title": "Excessive methods",
+      "description": "This pattern reports classes with a high number of methods.",
+      "parameters": [
+        {
+          "name": "maxmethods",
+          "default": 10
+        }
+      ],
+      "level": "Warning",
+      "enabled": true
+    },
+    {
+      "patternId": "rulesets-codesize.xml-TooManyPublicMethods",
+      "category": "CodeStyle",
+      "title": "Excessive public methods",
+      "description": "This pattern reports classes with a high number of public methods.",
+      "parameters": [
+        {
+          "name": "maxmethods",
+          "default": 10
+        },
+        {
+          "name": "ignorepattern",
+          "default": "(^(set|get))i"
+        }
+      ],
+      "level": "Warning",
+      "enabled": false
+    },
+    {
+      "patternId": "rulesets-codesize.xml-ExcessiveClassComplexity",
+      "category": "CodeStyle",
+      "title": "Weighted method count",
+      "description": "This pattern reports classes with a high weighted method count.",
+      "parameters": [
+        {
+          "name": "maximum",
+          "default": 50
+        }
+      ],
+      "level": "Warning",
+      "enabled": true
+    },
+    {
+      "patternId": "rulesets-controversial.xml-Superglobals",
+      "category": "CodeStyle",
+      "title": "Encapsulate Superglobals",
+      "description": "Prohibit direct access to superglobal variables",
+      "level": "Info",
+      "enabled": true
+    },
+    {
+      "patternId": "rulesets-controversial.xml-CamelCaseClassName",
+      "category": "CodeStyle",
+      "title": "Enforce CamelCase in classes",
+      "description": "Requires all class names to use the CamelCase style",
+      "level": "Info",
+      "enabled": false
+    },
+    {
+      "patternId": "rulesets-controversial.xml-CamelCasePropertyName",
+      "category": "CodeStyle",
+      "title": "Enforce CamelCase in properties",
+      "description": "Requires all property names to use the CamelCase style",
+      "level": "Info",
+      "enabled": false
+    },
+    {
+      "patternId": "rulesets-controversial.xml-CamelCaseMethodName",
+      "category": "CodeStyle",
+      "title": "Enforce CamelCase in methods",
+      "description": "Requires all method names to use the CamelCase style",
+      "level": "Info",
+      "enabled": false
+    },
+    {
+      "patternId": "rulesets-controversial.xml-CamelCaseParameterName",
+      "category": "CodeStyle",
+      "title": "Enforce CamelCase in parameters",
+      "description": "Requires all parameter names to use the CamelCase style",
+      "level": "Info",
+      "enabled": false
+    },
+    {
+      "patternId": "rulesets-controversial.xml-CamelCaseVariableName",
+      "category": "CodeStyle",
+      "title": "Enforce CamelCase in variables",
+      "description": "Requires all variable names to use the CamelCase style",
+      "level": "Warning",
+      "enabled": false
+    },
+    {
+      "patternId": "rulesets-design.xml-ExitExpression",
+      "category": "ErrorProne",
+      "title": "Prohibit exit-expression",
+      "description": "Prohibit the use of exit-expressions within regular code, it is not testable",
+      "level": "Warning",
+      "enabled": true
+    },
+    {
+      "patternId": "rulesets-design.xml-EvalExpression",
+      "category": "Security",
+      "title": "Prohibit eval expression",
+      "description": "Prohibit the use of eval, it is untestable, a security risk and bad practice",
+      "level": "Warning",
+      "subcategory": "CommandInjection",
+      "enabled": true
+    },
+    {
+      "patternId": "rulesets-design.xml-GotoStatement",
+      "category": "ErrorProne",
+      "title": "Prohibit goto",
+      "description": "Prohibit the use of goto, it makes the code harder to read nearly impossible to understand",
+      "level": "Warning",
+      "enabled": true
+    },
+    {
+      "patternId": "rulesets-design.xml-NumberOfChildren",
+      "category": "CodeStyle",
+      "title": "Excessive class children number",
+      "description": "Avoid classes with too many children",
+      "parameters": [
+        {
+          "name": "minimum",
+          "default": 15
+        }
+      ],
+      "level": "Warning",
+      "enabled": true
+    },
+    {
+      "patternId": "rulesets-design.xml-DepthOfInheritance",
+      "category": "CodeStyle",
+      "title": "Excessive class parents",
+      "description": "Avoid classes with too many parents parents",
+      "parameters": [
+        {
+          "name": "minimum",
+          "default": 6
+        }
+      ],
+      "level": "Warning",
+      "enabled": true
+    },
+    {
+      "patternId": "rulesets-design.xml-CouplingBetweenObjects",
+      "category": "CodeStyle",
+      "title": "The class has high a coupling between objects value. Consider to reduce the number of dependencies.",
+      "description": "A class with too many dependencies has negative impacts on several quality aspects of a class. This includes quality criteria like stability, maintainability and understandability.",
+      "parameters": [
+        {
+          "name": "maximum",
+          "default": 13
+        }
+      ],
+      "level": "Warning",
+      "enabled": true
+    },
+    {
+      "patternId": "rulesets-design.xml-DevelopmentCodeFragment",
+      "category": "CodeStyle",
+      "title": "Calling the typical debug function is mostly only used during development.",
+      "description": "Functions like var_dump(), print_r() etc. are normally only used during development and therefore such calls in production code are a good indicator that they were just forgotten.",
+      "parameters": [
+        {
+          "name": "unwanted-functions",
+          "default": "var_dump,print_r,debug_zval_dump,debug_print_backtrace"
+        },
+        {
+          "name": "ignore-namespaces",
+          "default": false
+        }
+      ],
+      "level": "Warning",
+      "enabled": false
+    },
+    {
+      "patternId": "rulesets-design.xml-EmptyCatchBlock",
+      "category": "CodeStyle",
+      "title": "Usually empty try-catch",
+      "description": "Usually empty try-catch is a bad idea because you are silently swallowing an error condition and then continuing execution.",
+      "parameters": [],
+      "level": "Warning",
+      "enabled": true
+    },
+    {
+      "patternId": "rulesets-design.xml-CountInLoopExpression",
+      "category": "CodeStyle",
+      "title": "Using count/sizeof in loops expressions",
+      "description": "Using count/sizeof in loops expressions is considered bad practice and is a potential source of many bugs, especially when the loop manipulates an array, as count happens on each iteration.",
+      "parameters": [],
+      "level": "Warning",
+      "enabled": true
+    },
+    {
+      "patternId": "rulesets-unusedcode.xml-UnusedPrivateField",
+      "category": "UnusedCode",
+      "title": "Prohibit unused private variables",
+      "description": "Prohibit the definition or assignment of unused private variables",
+      "level": "Warning",
+      "enabled": true
+    },
+    {
+      "patternId": "rulesets-unusedcode.xml-UnusedLocalVariable",
+      "category": "UnusedCode",
+      "title": "Prohibit unused variables",
+      "description": "Prohibit the definition or assignment of unused local variables",
+      "level": "Warning",
+      "enabled": true
+    },
+    {
+      "patternId": "rulesets-unusedcode.xml-UnusedPrivateMethod",
+      "category": "UnusedCode",
+      "title": "Prohibit unused private methods",
+      "description": "Prohibit the definition or assignment of unused private methods",
+      "level": "Warning",
+      "enabled": true
+    },
+    {
+      "patternId": "rulesets-unusedcode.xml-UnusedFormalParameter",
+      "category": "UnusedCode",
+      "title": "Prohibit unused arguments",
+      "description": "Prohibit the definition of unused parameters on methods or constructors",
+      "level": "Warning",
+      "enabled": true
+    },
+    {
+      "patternId": "rulesets-naming.xml-ShortVariable",
+      "category": "CodeStyle",
+      "title": "Prohibit short variable names",
+      "description": "Detects when a field, local, or parameter has a very short name.",
+      "parameters": [
+        {
+          "name": "minimum",
+          "default": 3
+        },
+        {
+          "name": "exceptions",
+          "default": ""
+        }
+      ],
+      "level": "Info",
+      "enabled": true
+    },
+    {
+      "patternId": "rulesets-naming.xml-LongVariable",
+      "category": "CodeStyle",
+      "title": "Prohibit long variable names",
+      "description": "Detects when a field, local, or parameter has a very long name.",
+      "parameters": [
+        {
+          "name": "maximum",
+          "default": 20
+        }
+      ],
+      "level": "Info",
+      "enabled": true
+    },
+    {
+      "patternId": "rulesets-naming.xml-LongClassName",
+      "category": "CodeStyle",
+      "title": "Avoid excessively long class names",
+      "description": "Detects when classes or interfaces are declared with excessively long names.",
+      "parameters": [
+        {
+          "name": "maximum",
+          "default": 40
+        },
+        {
+          "name": "subtract-prefixes",
+          "default": ""
+        },
+        {
+          "name": "subtract-suffixes",
+          "default": ""
+        }
+      ],
+      "level": "Info",
+      "enabled": true
+    },
+    {
+      "patternId": "rulesets-naming.xml-ShortClassName",
+      "category": "CodeStyle",
+      "title": "Avoid classes with short names",
+      "description": "Detects when classes or interfaces have a very short name.",
+      "parameters": [
+        {
+          "name": "minimum",
+          "default": 3
+        },
+        {
+          "name": "exceptions",
+          "default": ""
+        }
+      ],
+      "level": "Info",
+      "enabled": true
+    },
+    {
+      "patternId": "rulesets-naming.xml-ShortMethodName",
+      "category": "CodeStyle",
+      "title": "Prohibit short method names",
+      "description": "Detects when very short method names are used.",
+      "parameters": [
+        {
+          "name": "minimum",
+          "default": 3
+        },
+        {
+          "name": "exceptions",
+          "default": ""
+        }
+      ],
+      "level": "Info",
+      "enabled": true
+    },
+    {
+      "patternId": "rulesets-naming.xml-ConstructorWithNameAsEnclosingClass",
+      "category": "CodeStyle",
+      "title": "Prohibit constructor with class name",
+      "description": "In PHP 5, a constructor should not have the same name as the enclosing class.",
+      "level": "Info",
+      "enabled": false
+    },
+    {
+      "patternId": "rulesets-naming.xml-ConstantNamingConventions",
+      "category": "CodeStyle",
+      "title": "Enforce uppercase constants",
+      "description": "Constant names should always be defined in uppercase.",
+      "level": "Info",
+      "enabled": true
+    },
+    {
+      "patternId": "rulesets-naming.xml-BooleanGetMethodName",
+      "category": "CodeStyle",
+      "title": "Enforce boolean naming convention",
+      "description": "Boolean methods should be called 'isX()' or 'hasX()'",
+      "level": "Info",
+      "enabled": true
+    }
+  ]
+}

@@ -23,7 +23,7 @@ class TestPatPatBot(unittest.TestCase):
         sample_doc_data = DocFileData(
             tool="PEP",
             pattern_description="PEP 8: E303 too many blank lines (3)",
-            pattern_filename="PEP8_E303",
+            pattern_="PEP8_E303",
             path="path/to/doc-file.md",
         )
 
