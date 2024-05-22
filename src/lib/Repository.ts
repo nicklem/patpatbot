@@ -2,6 +2,7 @@ import { basename } from 'path';
 import { readFileSync } from 'fs';
 import { globSync } from 'glob';
 import DocumentationFile from './DocumentationFile';
+import logger from "./logging";
 
 class Repository {
     private readonly name: string;
@@ -10,6 +11,7 @@ class Repository {
     constructor(name: string, docsGlob: string, replaceName: string = "codacy-") {
         this.name = replaceName ? name.replace(replaceName, "") : name;
         this.docFileData = this.loadDocFileData(docsGlob);
+        logger.info(`Found ${this.docFileData.length} documentation files.`);
     }
 
     get docs(): DocumentationFile[] {

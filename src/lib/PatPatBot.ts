@@ -3,6 +3,7 @@ import PromptTemplate from './PromptTemplate';
 import DocumentationFile from './DocumentationFile';
 import GoogleSearch from './GoogleSearch';
 import Gpt from './Gpt';
+import logger from "./logging";
 
 class PatPatBot {
     private readonly gpt: Gpt;
@@ -15,6 +16,7 @@ class PatPatBot {
         this.search = search;
         this.promptData = {};
         this.promptTemplates = PATHS_PROMPTS.map(PromptTemplate.load);
+        logger.info(`Found ${this.promptTemplates.length} prompt templates.`);
     }
 
     setSourceDocData(docFileData: DocumentationFile) {

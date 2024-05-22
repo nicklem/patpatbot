@@ -3,7 +3,7 @@ exports.id = 575;
 exports.ids = [575];
 exports.modules = {
 
-/***/ 5664:
+/***/ 25664:
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 
@@ -14,9 +14,9 @@ __webpack_require__.d(__webpack_exports__, {
 });
 
 // EXTERNAL MODULE: ./node_modules/decamelize/index.js
-var decamelize = __webpack_require__(2984);
+var decamelize = __webpack_require__(62984);
 // EXTERNAL MODULE: ./node_modules/camelcase/index.js
-var camelcase = __webpack_require__(4661);
+var camelcase = __webpack_require__(64661);
 ;// CONCATENATED MODULE: ./node_modules/@langchain/core/dist/load/map_keys.js
 
 
@@ -216,7 +216,7 @@ class Serializable {
 
 /***/ }),
 
-/***/ 7493:
+/***/ 47493:
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 
@@ -320,7 +320,7 @@ function parsePartialJson(s) {
 }
 
 // EXTERNAL MODULE: ./node_modules/@langchain/core/dist/load/serializable.js + 1 modules
-var serializable = __webpack_require__(5664);
+var serializable = __webpack_require__(25664);
 ;// CONCATENATED MODULE: ./node_modules/@langchain/core/dist/messages/base.js
 
 function base_mergeContent(firstContent, secondContent) {
@@ -1187,7 +1187,7 @@ function convertToChunk(message) {
 
 /***/ }),
 
-/***/ 9721:
+/***/ 99721:
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -1195,8 +1195,8 @@ function convertToChunk(message) {
 /* harmony export */   "nw": () => (/* binding */ StringPromptValue)
 /* harmony export */ });
 /* unused harmony exports BasePromptValue, ImagePromptValue */
-/* harmony import */ var _load_serializable_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5664);
-/* harmony import */ var _messages_index_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7493);
+/* harmony import */ var _load_serializable_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(25664);
+/* harmony import */ var _messages_index_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(47493);
 
 
 /**
@@ -1346,13 +1346,13 @@ class ImagePromptValue extends (/* unused pure expression or super */ null && (B
 
 /***/ }),
 
-/***/ 968:
+/***/ 90968:
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "d": () => (/* binding */ BasePromptTemplate)
 /* harmony export */ });
-/* harmony import */ var _runnables_base_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2750);
+/* harmony import */ var _runnables_base_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(52750);
 // Default generic "any" values are for backwards compatibility.
 // Replace with "string" when we are comfortable with a breaking change.
 
@@ -1454,15 +1454,15 @@ class BasePromptTemplate extends _runnables_base_js__WEBPACK_IMPORTED_MODULE_0__
     static async deserialize(data) {
         switch (data._type) {
             case "prompt": {
-                const { PromptTemplate } = await Promise.resolve(/* import() */).then(__webpack_require__.bind(__webpack_require__, 3513));
+                const { PromptTemplate } = await Promise.resolve(/* import() */).then(__webpack_require__.bind(__webpack_require__, 93513));
                 return PromptTemplate.deserialize(data);
             }
             case undefined: {
-                const { PromptTemplate } = await Promise.resolve(/* import() */).then(__webpack_require__.bind(__webpack_require__, 3513));
+                const { PromptTemplate } = await Promise.resolve(/* import() */).then(__webpack_require__.bind(__webpack_require__, 93513));
                 return PromptTemplate.deserialize({ ...data, _type: "prompt" });
             }
             case "few_shot": {
-                const { FewShotPromptTemplate } = await __webpack_require__.e(/* import() */ 182).then(__webpack_require__.bind(__webpack_require__, 4182));
+                const { FewShotPromptTemplate } = await __webpack_require__.e(/* import() */ 182).then(__webpack_require__.bind(__webpack_require__, 64182));
                 return FewShotPromptTemplate.deserialize(data);
             }
             default:
@@ -1474,14 +1474,14 @@ class BasePromptTemplate extends _runnables_base_js__WEBPACK_IMPORTED_MODULE_0__
 
 /***/ }),
 
-/***/ 3513:
+/***/ 93513:
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "PromptTemplate": () => (/* binding */ PromptTemplate)
 /* harmony export */ });
-/* harmony import */ var _string_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6339);
+/* harmony import */ var _string_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(96339);
 /* harmony import */ var _template_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(8212);
 // Default generic "any" values are for backwards compatibility.
 // Replace with "string" when we are comfortable with a breaking change.
@@ -1637,14 +1637,14 @@ class PromptTemplate extends _string_js__WEBPACK_IMPORTED_MODULE_0__/* .BaseStri
 
 /***/ }),
 
-/***/ 6339:
+/***/ 96339:
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "A": () => (/* binding */ BaseStringPromptTemplate)
 /* harmony export */ });
-/* harmony import */ var _prompt_values_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9721);
-/* harmony import */ var _base_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(968);
+/* harmony import */ var _prompt_values_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(99721);
+/* harmony import */ var _base_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(90968);
 // Default generic "any" values are for backwards compatibility.
 // Replace with "string" when we are comfortable with a breaking change.
 
@@ -2585,7 +2585,7 @@ const checkValidTemplate = (template, templateFormat, inputVariables) => {
 
 /***/ }),
 
-/***/ 2750:
+/***/ 52750:
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 
@@ -6850,9 +6850,9 @@ var z = /*#__PURE__*/Object.freeze({
 
 
 // EXTERNAL MODULE: ./node_modules/p-retry/index.js
-var p_retry = __webpack_require__(1841);
+var p_retry = __webpack_require__(21841);
 // EXTERNAL MODULE: ./node_modules/uuid/dist/index.js
-var dist = __webpack_require__(53);
+var dist = __webpack_require__(40053);
 ;// CONCATENATED MODULE: ./node_modules/uuid/wrapper.mjs
 
 const v1 = dist.v1;
@@ -6866,7 +6866,7 @@ const stringify = dist.stringify;
 const parse = dist.parse;
 
 // EXTERNAL MODULE: ./node_modules/@langchain/core/dist/load/serializable.js + 1 modules
-var serializable = __webpack_require__(5664);
+var serializable = __webpack_require__(25664);
 ;// CONCATENATED MODULE: ./node_modules/@langchain/core/dist/utils/env.js
 const isBrowser = () => typeof window !== "undefined" && typeof window.document !== "undefined";
 const isWebWorker = () => typeof globalThis === "object" &&
@@ -7067,7 +7067,7 @@ class BaseCallbackHandler extends BaseCallbackHandlerMethodsClass {
 }
 
 // EXTERNAL MODULE: ./node_modules/ansi-styles/index.js
-var ansi_styles = __webpack_require__(565);
+var ansi_styles = __webpack_require__(60565);
 ;// CONCATENATED MODULE: ./node_modules/@langchain/core/dist/tracers/base.js
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -10354,7 +10354,7 @@ class tracer_langchain_LangChainTracer extends base_BaseTracer {
 }
 
 // EXTERNAL MODULE: ./node_modules/@langchain/core/dist/messages/index.js + 9 modules
-var dist_messages = __webpack_require__(7493);
+var dist_messages = __webpack_require__(47493);
 ;// CONCATENATED MODULE: ./node_modules/@langchain/core/dist/tracers/tracer_langchain_v1.js
 
 
