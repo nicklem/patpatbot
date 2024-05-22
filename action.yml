@@ -7,5 +7,12 @@ inputs:
     required: false
     default: 'docs/description/*.md'
 runs:
-  using: 'node20'
-  main: 'dist/main.js'
+  using: 'composite'
+  steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 18
+    - run: npm ci
+    - run: npm build
+    - run: npm start
