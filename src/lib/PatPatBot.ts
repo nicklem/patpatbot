@@ -96,7 +96,8 @@ class PatPatBot {
             const tag = match[1];
             const tagMatch = answer.match(new RegExp(`<${tag}>[^]+</${tag}>`, 'g'));
             output[`${promptTemplateId}__${tag}`] = tagMatch[0]
-                .replace(new RegExp(`<${tag}>|</${tag}>`, 'g'), '');
+                .replace(new RegExp(`<${tag}>|</${tag}>`, 'g'), '')
+                .trim();
         }
         return output;
     }
