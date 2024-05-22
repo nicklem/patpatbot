@@ -47100,13 +47100,15 @@ const GoogleSearch_1 = __importDefault(__nccwpck_require__(59237));
 const Gpt_1 = __importDefault(__nccwpck_require__(68639));
 const PatPatBot_1 = __importDefault(__nccwpck_require__(80629));
 const Repository_1 = __importDefault(__nccwpck_require__(7591));
+const logging_1 = __importDefault(__nccwpck_require__(23877));
 function run() {
     const bot = new PatPatBot_1.default(new Gpt_1.default(init_1.ENV_OPENAI_API_KEY), new GoogleSearch_1.default());
     const repo = new Repository_1.default(init_1.ENV_REPO_NAME, init_1.ENV_DOCS_GLOB);
     repo.docs.slice(0, 1).map(doc => {
+        logging_1.default.info('Processing pattern doc:\n' + JSON.stringify(doc.data, null, 2));
         bot.setSourceDocData(doc);
         bot.processSourceDoc().then(() => {
-            console.log(bot.getPromptDatum('examine'));
+            logging_1.default.info('Improved description:\n' + bot.getPromptDatum('examine'));
         });
     });
 }
