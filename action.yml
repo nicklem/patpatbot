@@ -6,6 +6,14 @@ inputs:
     description: 'Glob pattern to search for documentation files'
     required: false
     default: 'docs/description/*.md'
+  doc_descriptions_path:
+    description: 'Path to descriptions.json'
+    required: true
+    default: 'docs/description/description.json'
+  doc_patterns_path:
+    description: 'Path to patterns.json'
+    required: false
+    default: 'docs/patterns.json'
 runs:
   using: 'node20'
   main: 'dist/index.js'
