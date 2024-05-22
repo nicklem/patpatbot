@@ -14,5 +14,8 @@ runs:
       with:
         node-version: 18
     - run: npm ci
+      shell: bash
     - run: npm build
+      shell: bash
     - run: npm start
+      shell: bash
