@@ -8,12 +8,11 @@ class Scraper {
     }
 
     private async fetchAndParse(url: string): Promise<string> {
-        let html = "";
+        let html: string;
         try {
             html = await this.fetch(url);
         } catch (error) {
-            // TODO: Log this error
-            console.error(`Error fetching ${url}: ${error}`)
+            html = ""; // Ignore any HTTP errors on specific page loads.
         }
         return this.parseHtml(html);
     }
@@ -25,7 +24,9 @@ class Scraper {
 
     private parseHtml(html: string): string {
         const $ = cheerio.load(html);
-        return $('p').text();
+        const output = $('p').text();
+        // TODO some results are way too long. Truncating now; investigate alternatives.
+        return output.slice(0, 25000);
     }
 }
 

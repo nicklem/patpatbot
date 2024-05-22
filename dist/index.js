@@ -46749,8 +46749,7 @@ class GoogleSearch {
             const $ = cheerio.load(response.data);
             return $('#search span>a') // TODO This is flaky
                 .toArray()
-                .map((element) => $(element).attr('href'))
-                .slice(0, 3); // TODO remove this eventually
+                .map((element) => $(element).attr('href'));
         });
     }
 }
@@ -47011,13 +47010,12 @@ class Scraper {
     }
     fetchAndParse(url) {
         return __awaiter(this, void 0, void 0, function* () {
-            let html = "";
+            let html;
             try {
                 html = yield this.fetch(url);
             }
             catch (error) {
-                // TODO: Log this error
-                console.error(`Error fetching ${url}: ${error}`);
+                html = ""; // Ignore any HTTP errors on specific page loads.
             }
             return this.parseHtml(html);
         });
@@ -47030,7 +47028,9 @@ class Scraper {
     }
     parseHtml(html) {
         const $ = cheerio.load(html);
-        return $('p').text();
+        const output = $('p').text();
+        // TODO some results are way too long. Truncating now; investigate alternatives.
+        return output.slice(0, 25000);
     }
 }
 exports["default"] = Scraper;
@@ -47091,6 +47091,15 @@ exports["default"] = logger;
 
 "use strict";
 
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -47102,14 +47111,17 @@ const PatPatBot_1 = __importDefault(__nccwpck_require__(80629));
 const Repository_1 = __importDefault(__nccwpck_require__(7591));
 const logging_1 = __importDefault(__nccwpck_require__(23877));
 function run() {
-    const bot = new PatPatBot_1.default(new Gpt_1.default(init_1.ENV_OPENAI_API_KEY), new GoogleSearch_1.default());
-    const repo = new Repository_1.default(init_1.ENV_REPO_NAME, init_1.ENV_DOCS_GLOB);
-    repo.docs.slice(0, 10).map((doc, idx, arr) => {
-        logging_1.default.info(`Processing pattern doc ${idx + 1} of ${arr.length}:\n\n${JSON.stringify(doc.data, null, 2)}\n\n`);
-        bot.setSourceDocData(doc);
-        bot.processSourceDoc().then(() => {
+    return __awaiter(this, void 0, void 0, function* () {
+        const bot = new PatPatBot_1.default(new Gpt_1.default(init_1.ENV_OPENAI_API_KEY), new GoogleSearch_1.default());
+        const repo = new Repository_1.default(init_1.ENV_REPO_NAME, init_1.ENV_DOCS_GLOB);
+        const maxIdx = Math.min(repo.docs.length, 10); // TODO remove this
+        for (let idx = 0; idx < maxIdx; idx++) {
+            const doc = repo.docs[idx];
+            logging_1.default.info(`Processing pattern doc ${idx + 1} of ${repo.docs.length}:\n\n${JSON.stringify(doc.data, null, 2)}\n\n`);
+            bot.setSourceDocData(doc);
+            yield bot.processSourceDoc();
             logging_1.default.info(`Improved description:\n\n${bot.getPromptDatum('examine')}\n\n`);
-        });
+        }
     });
 }
 run();
