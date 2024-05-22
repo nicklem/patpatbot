@@ -8,4 +8,4 @@ class TestBot(unittest.TestCase):
 
     def test_simple_query_gets_response(self):
         results = self.__search.execute('python decorator pattern')
-        self.assertGreater(len(results), 0)  # TODO improve this test
+        self.assertGreater(len(results), 0)

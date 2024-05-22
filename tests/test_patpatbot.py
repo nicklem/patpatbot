@@ -31,4 +31,4 @@ class TestPatPatBot(unittest.TestCase):
         self.__bot.process_source_doc()
         result = self.__bot.get_prompt_data('examine')
 
-        self.assertGreater(len(result), 0)  # TODO improve this test
+        self.assertGreater(len(result), 0)
