@@ -9,4 +9,3 @@ inputs:
 runs:
   using: 'node20'
   main: 'dist/main.js'
-  pre: 'npm ci && npm run build'
