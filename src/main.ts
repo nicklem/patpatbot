@@ -24,7 +24,7 @@ async function run() {
         ENV_DOC_PATTERNS_PATH,
     );
 
-    const maxIdx = Math.min(repo.docs.length, 10); // TODO remove this
+    const maxIdx = Math.min(repo.docs.length, 3); // TODO remove this
     for (let idx = 0; idx < maxIdx; idx++) {
         const doc = repo.docs[idx];
         logger.info(`Processing pattern ${idx + 1} of ${repo.docs.length}:\n%o`, doc.dataPrefixed);
