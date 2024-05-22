@@ -47104,11 +47104,11 @@ const logging_1 = __importDefault(__nccwpck_require__(23877));
 function run() {
     const bot = new PatPatBot_1.default(new Gpt_1.default(init_1.ENV_OPENAI_API_KEY), new GoogleSearch_1.default());
     const repo = new Repository_1.default(init_1.ENV_REPO_NAME, init_1.ENV_DOCS_GLOB);
-    repo.docs.slice(0, 1).map(doc => {
-        logging_1.default.info('Processing pattern doc:\n' + JSON.stringify(doc.data, null, 2));
+    repo.docs.slice(0, 10).map((doc, idx, arr) => {
+        logging_1.default.info(`Processing pattern doc ${idx + 1} of ${arr.length}:\n\n${JSON.stringify(doc.data, null, 2)}\n\n`);
         bot.setSourceDocData(doc);
         bot.processSourceDoc().then(() => {
-            logging_1.default.info('Improved description:\n' + bot.getPromptDatum('examine'));
+            logging_1.default.info(`Improved description:\n\n${bot.getPromptDatum('examine')}\n\n`);
         });
     });
 }
