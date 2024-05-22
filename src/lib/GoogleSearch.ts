@@ -34,7 +34,8 @@ class GoogleSearch {
 
         return $('#search span>a')  // TODO This is flaky
             .toArray()
-            .map((element) => $(element).attr('href'));
+            .map((element) => $(element).attr('href'))
+            .slice(0, 3); // TODO remove this eventually
     }
 }
 
