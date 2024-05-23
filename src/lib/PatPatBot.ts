@@ -1,10 +1,10 @@
 import {PATHS_PROMPTS} from './init';
 import PromptTemplate from './PromptTemplate';
-import DocumentationFile from './DocumentationFile';
+import DocFile from './DocFile';
 import GoogleSearch from './GoogleSearch';
 import Gpt from './Gpt';
 import logger from "./logging";
-import {DocumentationFileData, PatPatBotOutput} from "./types";
+import {DocData, BotOutput} from "./types";
 import {flatten} from "flat";
 
 const INPUT_ID = 'input';
@@ -12,8 +12,8 @@ const OUTPUT_ID = 'output';
 
 type PlainObject = Record<string, string>
 type AllPromptData = Record<string, PlainObject> & {
-    [INPUT_ID]: DocumentationFileData,
-    [OUTPUT_ID]: PatPatBotOutput,
+    [INPUT_ID]: DocData,
+    [OUTPUT_ID]: BotOutput,
 }
 
 class PatPatBot {
@@ -33,8 +33,8 @@ class PatPatBot {
         logger.info(`Found ${this.promptTemplates.length} prompt templates.`);
     }
 
-    async processPatternDoc(doc: DocumentationFile): Promise<PatPatBotOutput> {
-        this.setPromptData(INPUT_ID, doc.data);
+    async processDoc(data: DocData): Promise<BotOutput> {
+        this.setPromptData(INPUT_ID, data);
         await this.executePrompts();
         return this.promptData[OUTPUT_ID];
     }
@@ -74,18 +74,17 @@ class PatPatBot {
             this.getPromptDataFlat(),
             promptTemplate.promptSystem,
         );
-        const outputParsed = this.extractDataFromAnswer(output);
-        this.setPromptData(promptTemplate.id, outputParsed);
+        const outputFormatted = promptTemplate.parseOutput
+            ? this.parseOutputAsXML(output)
+            : {output};
+        this.setPromptData(promptTemplate.id, outputFormatted);
     }
 
     /**
-     * Parse bot output as XML-like and extract data from it.
-     *
-     * @param answer - Bot output as a string
-     *
-     * @returns - Extracted data as a plain JS object.
+     * @param answer - GPT response containing data in XML-like format.
+     * @returns - Extracted data as a plain JS object with tags as keys.
      */
-    private extractDataFromAnswer(answer: string): PlainObject {
+    private parseOutputAsXML(answer: string): PlainObject {
         const output: PlainObject = {};
         const tagsMatch = answer.matchAll(/<([a-zA-Z0-9\-_]+)>/g);
         for (const match of tagsMatch) {

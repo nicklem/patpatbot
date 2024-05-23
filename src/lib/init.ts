@@ -10,9 +10,9 @@ const API_KEY_OPENAI = process.env.OPENAI_API_KEY;
 const REPO_NAME = process.env.GITHUB_REPOSITORY.split("/")[1];
 
 // TODO getInput doesn't read default values from action.yml. Should it?
-const DOCS_GLOB =
+const DOCS_DIR =
     getInput('docs_glob')
-    || "docs/description/*.md";
+    || "docs/description";
 const DOC_DESCRIPTIONS_PATH =
     getInput('doc_descriptions_path')
     || "docs/description/description.json";
@@ -24,7 +24,7 @@ const PATHS_PROMPTS = glob.sync(join(__dirname, "..", "prompts", "*.json")).sort
 
 export {
     API_KEY_OPENAI,
-    DOCS_GLOB,
+    DOCS_DIR,
     DOC_DESCRIPTIONS_PATH,
     DOC_PATTERNS_PATH,
     REPO_NAME,

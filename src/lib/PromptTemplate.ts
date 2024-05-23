@@ -3,28 +3,32 @@ import * as path from 'path';
 
 type ToolOptions = 'google' | 'gpt';
 
-class PromptTemplate {
+interface PromptTemplateData {
+    tool: ToolOptions;
+    promptSystem?: string;
+    promptHuman: string;
+    parseOutput?: boolean;
+};
+
+class PromptTemplate implements PromptTemplateData {
     id: string;
     promptSystem: string;
     promptHuman: string;
     tool: ToolOptions;
+    parseOutput: boolean;
 
-    constructor(promptId: string, promptSystem: string, promptHuman: string, tool: ToolOptions) {
+    constructor(promptId: string, data: PromptTemplateData) {
         this.id = promptId;
-        this.promptSystem = promptSystem;
-        this.promptHuman = promptHuman;
-        this.tool = tool;
+        this.tool = data.tool;
+        this.promptSystem = data.promptSystem || null;
+        this.promptHuman = data.promptHuman;
+        this.parseOutput = data.parseOutput || false;
     }
 
     static load(filePath: string): PromptTemplate {
-        const promptFileData = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-        const promptId = path.basename(filePath).match(/\d{2}-(.+)\.json$/)?.[1] || '';
-
         return new PromptTemplate(
-            promptId,
-            promptFileData.prompt_system,
-            promptFileData.prompt_human,
-            promptFileData.tool
+            path.basename(filePath).match(/\d{2}-(.+)\.json$/)?.[1] || '',
+            JSON.parse(fs.readFileSync(filePath, 'utf-8'))
         );
     }
 }

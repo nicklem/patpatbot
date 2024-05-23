@@ -1,7 +1,7 @@
 import {
     API_KEY_OPENAI,
     REPO_NAME,
-    DOCS_GLOB,
+    DOCS_DIR,
     DOC_DESCRIPTIONS_PATH,
     DOC_PATTERNS_PATH
 } from "./lib/init";
@@ -19,21 +19,21 @@ async function run() {
 
     const repo = new Repository(
         REPO_NAME,
-        DOCS_GLOB,
+        DOCS_DIR,
         DOC_DESCRIPTIONS_PATH,
         DOC_PATTERNS_PATH,
     );
 
     const maxIdx = Math.min(repo.docs.length, 3); // TODO remove this
     for (let idx = 0; idx < maxIdx; idx++) {
-        const doc = repo.docs[idx];
+        let doc = repo.docs[idx];
         logger.info(`Processing pattern ${idx + 1} of ${repo.docs.length}: %o`, doc.data.patternId);
-        const output = await bot.processPatternDoc(doc);
-        repo.updateDoc(doc, output);
-        repo.updateDescriptionsAndPatterns(doc, output);
+        const botOutput = await bot.processDoc(doc.data);
+        doc.updateData(botOutput)
+        repo.updateMeta(doc.data);
     }
 
-    repo.saveDescriptionsAndPatterns();
+    repo.save();
 }
 
 run();

@@ -23,7 +23,7 @@ class GoogleSearch {
         const response = await axios.get(
             'https://www.google.com/search',
             {
-                params: { q },
+                params: { q, hl: 'en' },
                 headers: {
                     'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0'
                 }
