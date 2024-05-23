@@ -1,4 +1,4 @@
 {
   "tool": "google",
-  "promptHuman": "Code pattern info about {shortDescription} {input__description}"
+  "promptHuman": "Code pattern info about {input__shortDescription} {input__description}"
 }
