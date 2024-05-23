@@ -87,8 +87,11 @@ class PatPatBot {
         const tagsMatch = answer.matchAll(/<([a-zA-Z0-9\-_]+)>/g);
         for (const match of tagsMatch) {
             const tag = match[1];
-            output[tag] = answer
-                .match(new RegExp(`<${tag}>[^]+</${tag}>`, 'g'))?.[0]
+            const answerTag =
+                answer.match(new RegExp(`<${tag}>[^]+</${tag}>`, 'g'))?.[0]
+                || 'TODO malformed GPT output.'; // TODO handle this better by asking GPT to check.
+
+            output[tag] = answerTag
                 .replace(new RegExp(`<${tag}>|</${tag}>`, 'g'), '')
                 .trim();
         }
