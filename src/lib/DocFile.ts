@@ -17,11 +17,13 @@ class DocFile {
         this.docData = {
             ...this.docData,
             ...botOutput,
+            __updated: 'yes',
         }
     }
 
     save() {
-        writeFileSync(this.docData.path, this.docData.description, 'utf-8');
+        if(!this.docData.__updated) return;
+        writeFileSync(this.docData.path, this.docData.description.trim() + '\n', 'utf-8');
     }
 
     static load(docsDir: string, patternId: string): DocFile {

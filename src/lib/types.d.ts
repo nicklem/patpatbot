@@ -19,6 +19,7 @@ export type DocData = Partial<BotOutput> & {
     path: string;
     patternId: string;
     description: string;
+    __updated?: string; // Using a string to avoid TS hell.
 };
 
 export interface IQueryable {
