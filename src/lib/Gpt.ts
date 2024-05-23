@@ -1,6 +1,6 @@
-import { ChatOpenAI } from '@langchain/openai';
-import { ChatPromptTemplate } from '@langchain/core/prompts';
-import { StringOutputParser } from '@langchain/core/output_parsers';
+import {ChatOpenAI} from '@langchain/openai';
+import {ChatPromptTemplate} from '@langchain/core/prompts';
+import {StringOutputParser} from '@langchain/core/output_parsers';
 
 type PromptTemplateMessages = Array<['system' | 'human', string]>;
 
@@ -31,14 +31,11 @@ class Gpt {
         promptTemplateMessages: PromptTemplateMessages,
         promptData: Record<string, string> = {}
     ): Promise<string> {
-        const prompt = ChatPromptTemplate.fromMessages(promptTemplateMessages);
-        const outputParser = new StringOutputParser();
-
-        const chain = prompt
+        return await ChatPromptTemplate
+            .fromMessages(promptTemplateMessages)
             .pipe(this.model)
-            .pipe(outputParser);
-
-        return await chain.invoke(promptData);
+            .pipe(new StringOutputParser())
+            .invoke(promptData);
     }
 }
 

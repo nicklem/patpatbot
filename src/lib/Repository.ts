@@ -14,10 +14,10 @@ type DocDescription = {
 class Repository {
     private readonly name: string;
     private readonly docFileData: DocumentationFile[];
-    private docDescriptionPath: string;
-    private docDescriptions: Array<DocDescription>;
-    private docPatternsPath: string;
-    private docPatterns: {patterns: Array<DocDescription>};
+    private readonly docDescriptionPath: string;
+    private readonly docDescriptions: Array<DocDescription>;
+    private readonly docPatternsPath: string;
+    private readonly docPatterns: {patterns: Array<DocDescription>};
 
     constructor(
         name: string,

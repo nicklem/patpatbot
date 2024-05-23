@@ -9,7 +9,9 @@ Since this is a GH action, all code must be self-contained and ready to be execu
 
 All compiled files in `dist` are therefore committed.
 
-## Installing and running
+## Using the GitHub action
+
+## Installing and running locally
 
 1. Set environment variables: `cp .env.example .env` and edit the file
 1. Install dependencies: `npm i`
