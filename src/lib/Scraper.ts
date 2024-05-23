@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as cheerio from 'cheerio';
+import logger from "./logging";
 
 class Scraper {
     async scrape(urls: string[]): Promise<string[]> {
@@ -25,6 +26,7 @@ class Scraper {
     private parseHtml(html: string): string {
         const $ = cheerio.load(html);
         const output = $('p').text();
+        logger.info(`Scraped ${output.slice(0, 100)}...`);
         // TODO some results are way too long. Truncating now; investigate alternatives.
         return output.slice(0, 25000);
     }
