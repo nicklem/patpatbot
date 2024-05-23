@@ -29,6 +29,7 @@ class Action {
         }
 
         repo.save();
+        logger.info('Done!');
     }
 }
 
