@@ -33,6 +33,7 @@ class PatPatBot {
 
     async processDoc(data: DocData): Promise<BotOutput> {
         this.setPromptData(INPUT_ID, data);
+        this.gpt.reset();
         await this.executePrompts();
         return this.promptData[OUTPUT_ID];
     }

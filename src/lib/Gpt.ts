@@ -6,14 +6,22 @@ import logger from "./logging";
 
 type PromptTemplateMessages = Array<['system' | 'human' | 'ai', string]>;
 
+const PROMPT_SYSTEM_DEFAULT = "You are a senior technical writer.";
+
 class Gpt implements IQueryable {
     private model: ChatOpenAI;
-    private readonly promptTemplateMessages: PromptTemplateMessages = [
-        ["system", "You are a senior technical writer."],
+    private promptTemplateMessages: PromptTemplateMessages = [
+        ["system", PROMPT_SYSTEM_DEFAULT],
     ];
 
     constructor(openaiApiKey: string, model: string = "gpt-4o") {
         this.model = new ChatOpenAI({ model, apiKey: openaiApiKey });
+    }
+
+    reset() {
+        this.promptTemplateMessages = [
+            ["system", PROMPT_SYSTEM_DEFAULT],
+        ]
     }
 
     async execute(
@@ -26,6 +34,9 @@ class Gpt implements IQueryable {
         }
         this.promptTemplateMessages.push(["human", promptHuman]);
         const output = (await this.doPromptFromMessages(promptData))
+            // TODO abstract this. Look for these in in DocFile.ts
+            // These are needed to escape curly braces in the output
+            // and avoid headaches with the templating engine.
             .replace(/\{/g, '&#x7B;')
             .replace(/}/g, '&#x7D;')
         this.promptTemplateMessages.push(["ai", output]);
