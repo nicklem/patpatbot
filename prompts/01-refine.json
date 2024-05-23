@@ -1,0 +1,5 @@
+{
+  "tool": "gpt",
+  "promptSystem": "You're a senior technical writer at a software company, specializing in static analysis tools.",
+  "promptHuman": "Investigate the pattern `{input__shortDescription}`, identified internally by the string `{input__patternId}`. The current description, which I'm trying to improve, is delimited by 5 backticks as follows: `````{input__description}`````.\n\nA Google search yielded the following unstructured data, which may be relevant, and is delimited by 5 backticks as follows: `````{searchPatternInfo__output}`````.\n\nYOUR TASK: Summarize the findings and provide three hypotheses for what the pattern may be about."
+}

@@ -19,7 +19,7 @@ class Action {
             DOC_PATTERNS_PATH,
         );
 
-        const maxIdx = Math.min(repo.docs.length, 10); // TODO remove this
+        const maxIdx = Math.min(repo.docs.length, 3); // TODO remove this
         for (let idx = 0; idx < maxIdx; idx++) {
             let doc = repo.docs[idx];
             logger.info(`Processing pattern ${idx + 1} of ${repo.docs.length}: %o`, doc.data.patternId);
