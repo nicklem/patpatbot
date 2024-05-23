@@ -30,7 +30,7 @@ class DocFile {
         const filePath = join(docsDir, `${patternId}.md`);
         return new DocFile({
             patternId,
-            tool: this.name,
+            tool: patternId.replace(/[-_]/g, ' '),
             path: filePath,
             description: readFileSync(filePath, 'utf-8')
         });

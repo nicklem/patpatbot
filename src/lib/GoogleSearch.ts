@@ -3,6 +3,7 @@ import * as cheerio from 'cheerio';
 import Scraper from "./Scraper";
 import format from 'string-format';
 import {IQueryable, PlainObject} from "./types";
+import logger from "./logging";
 
 class GoogleSearch implements IQueryable {
     constructor(
@@ -14,6 +15,7 @@ class GoogleSearch implements IQueryable {
         promptData: PlainObject = {},
     ): Promise<string> {
         const query = format(promptHuman, promptData);
+        logger.info(`Searching Google for: ${query}`);
         const resultUrls = await this.search(query);
         const resultData = await this.scraper.scrape(resultUrls);
         return JSON.stringify(resultData);
