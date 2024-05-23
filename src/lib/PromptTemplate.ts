@@ -1,14 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-
-type ToolOptions = 'google' | 'gpt';
-
-interface PromptTemplateData {
-    tool: ToolOptions;
-    promptSystem?: string;
-    promptHuman: string;
-    parseOutput?: boolean;
-};
+import {PromptTemplateData, ToolOptions} from "./types";
 
 class PromptTemplate implements PromptTemplateData {
     id: string;
@@ -27,7 +19,7 @@ class PromptTemplate implements PromptTemplateData {
 
     static load(filePath: string): PromptTemplate {
         return new PromptTemplate(
-            path.basename(filePath).match(/\d{2}-(.+)\.json$/)?.[1] || '',
+            path.basename(filePath).match(/^\d{2}-(.+)\.json$/)?.[1] || '',
             JSON.parse(fs.readFileSync(filePath, 'utf-8'))
         );
     }

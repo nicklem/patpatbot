@@ -29,7 +29,7 @@ async function run() {
         let doc = repo.docs[idx];
         logger.info(`Processing pattern ${idx + 1} of ${repo.docs.length}: %o`, doc.data.patternId);
         const botOutput = await bot.processDoc(doc.data);
-        doc.updateData(botOutput)
+        doc.update(botOutput)
         repo.updateMeta(doc.data);
     }
 

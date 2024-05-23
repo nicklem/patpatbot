@@ -2,16 +2,16 @@ import axios from 'axios';
 import * as cheerio from 'cheerio';
 import Scraper from "./Scraper";
 import format from 'string-format';
+import {IQueryable, PlainObject} from "./types";
 
-class GoogleSearch {
-
+class GoogleSearch implements IQueryable {
     constructor(
         private readonly scraper: Scraper = new Scraper()
     ) {}
 
     async execute(
         promptHuman: string,
-        promptData: Record<string, string> = {},
+        promptData: PlainObject = {},
     ): Promise<string> {
         const query = format(promptHuman, promptData);
         const resultUrls = await this.search(query);

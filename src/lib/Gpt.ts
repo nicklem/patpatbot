@@ -1,10 +1,11 @@
 import {ChatOpenAI} from '@langchain/openai';
 import {ChatPromptTemplate} from '@langchain/core/prompts';
 import {StringOutputParser} from '@langchain/core/output_parsers';
+import {IQueryable, PlainObject} from "./types";
 
 type PromptTemplateMessages = Array<['system' | 'human', string]>;
 
-class Gpt {
+class Gpt implements IQueryable {
     private model: ChatOpenAI;
 
     constructor(openaiApiKey: string, model: string = "gpt-4o") {
@@ -13,7 +14,7 @@ class Gpt {
 
     async execute(
         promptHuman: string,
-        promptData: Record<string, string> = {},
+        promptData: PlainObject = {},
         promptSystem?: string
     ): Promise<string> {
         const promptTemplateMessages: PromptTemplateMessages = [];
@@ -29,7 +30,7 @@ class Gpt {
 
     private async doPromptFromMessages(
         promptTemplateMessages: PromptTemplateMessages,
-        promptData: Record<string, string> = {}
+        promptData: PlainObject = {}
     ): Promise<string> {
         return await ChatPromptTemplate
             .fromMessages(promptTemplateMessages)

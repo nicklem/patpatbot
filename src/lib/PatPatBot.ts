@@ -1,17 +1,15 @@
 import {PATHS_PROMPTS} from './init';
 import PromptTemplate from './PromptTemplate';
-import DocFile from './DocFile';
 import GoogleSearch from './GoogleSearch';
 import Gpt from './Gpt';
 import logger from "./logging";
-import {DocData, BotOutput} from "./types";
+import {BotOutput, DocData, PlainObject} from "./types";
 import {flatten} from "flat";
 
-const INPUT_ID = 'input';
-const OUTPUT_ID = 'output';
+export const INPUT_ID = 'input';
+export const OUTPUT_ID = 'output';
 
-type PlainObject = Record<string, string>
-type AllPromptData = Record<string, PlainObject> & {
+export type AllPromptData = Record<string, PlainObject> & {
     [INPUT_ID]: DocData,
     [OUTPUT_ID]: BotOutput,
 }

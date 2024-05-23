@@ -1,5 +1,4 @@
 import {readFileSync, writeFileSync} from "fs";
-
 import {DocData, BotOutput} from "./types";
 import {join} from "path";
 
@@ -14,7 +13,7 @@ class DocFile {
         return this.docData;
     }
 
-    updateData(botOutput: BotOutput) {
+    update(botOutput: BotOutput) {
         this.docData = {
             ...this.docData,
             ...botOutput,
