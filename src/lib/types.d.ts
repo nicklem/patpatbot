@@ -15,7 +15,7 @@ export type BotOutput = {
 // Note: after the query chain is executed,
 // the output is added to the input and partially overwrites it.
 export type DocData = Partial<BotOutput> & {
-    tool: string;
+    shortDescription: string;
     path: string;
     patternId: string;
     description: string;
