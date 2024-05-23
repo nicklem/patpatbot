@@ -27,7 +27,7 @@ class Scraper {
         const $ = cheerio.load(html);
         const output = $('p').text();
         // TODO some results are way too long. Truncating now; investigate alternatives.
-        return output.slice(0, 25000);
+        return output.slice(0, 15000);
     }
 }
 
