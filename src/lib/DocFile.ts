@@ -26,6 +26,7 @@ class DocFile {
 
     static load(docsDir: string, patternId: string): DocFile {
         const filePath = join(docsDir, `${patternId}.md`);
+        console.log(`Loading file: ${filePath}`);
         return new DocFile({
             patternId,
             tool: this.name,
