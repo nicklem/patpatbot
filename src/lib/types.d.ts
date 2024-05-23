@@ -21,8 +21,6 @@ export type DocData = Partial<BotOutput> & {
     description: string;
 };
 
-export type DocEntries = Record<string, DocFile>;
-
 export interface IQueryable {
     execute(promptHuman: string, promptData: PlainObject, promptSystem?: string): Promise<string>;
 }

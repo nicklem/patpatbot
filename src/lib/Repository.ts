@@ -1,13 +1,13 @@
 import DocFile from './DocFile';
 import logger from "./logging";
-import {DocData, DocEntries, MetaDescriptions, MetaPatterns} from "./types";
+import {DocData, MetaDescriptions} from "./types";
 import MetaFile from "./MetaFile";
 
 class Repository {
     private readonly name: string;
     private readonly metaDescriptions: MetaFile;
     private readonly metaPatterns: MetaFile;
-    private readonly docFileData: DocEntries;
+    private readonly docFileData: Record<string, DocFile>;
 
     constructor(
         name: string,
@@ -27,18 +27,18 @@ class Repository {
         return Object.values(this.docFileData);
     }
 
-    updateMeta(data: DocData) {
-        this.metaDescriptions.update(data);
-        this.metaPatterns.update(data);
-    }
-
     save() {
         this.docs.forEach((doc) => doc.save());
         this.metaDescriptions.save();
         this.metaPatterns.save();
     }
 
-    private loadDocFiles(docsDir: string, docDescriptions: MetaDescriptions): DocEntries {
+    updateMeta(data: DocData) {
+        this.metaDescriptions.update(data);
+        this.metaPatterns.update(data);
+    }
+
+    private loadDocFiles(docsDir: string, docDescriptions: MetaDescriptions) {
         return docDescriptions.reduce((acc, {patternId}) => {
             try {
                 acc[patternId] = DocFile.load(docsDir, patternId);
