@@ -18,12 +18,13 @@ class MetaFile {
     }
 
     update(data: DocData) {
-        const {title, summary, patternId} = data;
+        const {title, summary, patternId, updatedDate} = data;
         const docMeta = this.patternDescriptions
             .find((d) => d.patternId === patternId);
         if (docMeta) {
             docMeta.title = title;
             docMeta.description = summary;
+            docMeta.patPatBotReviewed = updatedDate;
         }
     }
 

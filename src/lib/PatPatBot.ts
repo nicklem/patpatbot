@@ -83,13 +83,12 @@ class PatPatBot {
      * @returns - Extracted data as a plain JS object with tags as keys.
      */
     private parseOutputAsXML(answer: string): PlainObject {
-        logger.info(`Parsing output as XML: ${answer}`);
         const output: PlainObject = {};
         const tagsMatch = answer.matchAll(/<([a-zA-Z0-9\-_]+)>/g);
         for (const match of tagsMatch) {
             const tag = match[1];
             output[tag] = answer
-                .match(new RegExp(`<${tag}>[^]+</${tag}>`, 'g'))[0]
+                .match(new RegExp(`<${tag}>[^]+</${tag}>`, 'g'))?.[0]
                 .replace(new RegExp(`<${tag}>|</${tag}>`, 'g'), '')
                 .trim();
         }

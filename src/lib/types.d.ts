@@ -19,7 +19,7 @@ export type DocData = Partial<BotOutput> & {
     path: string;
     patternId: string;
     description: string;
-    __updated?: string; // Using a string to avoid TS hell.
+    updatedDate?: string;
 };
 
 export interface IQueryable {
@@ -30,7 +30,8 @@ export interface IQueryable {
 export type DocDescription = {
     patternId: string,
     title: string,
-    description: string
+    description: string,
+    patPatBotReviewed?: string,
 };
 export type MetaDescriptions = DocDescription[]; // see docs/description/description.json
 export type MetaPatterns = { patterns: MetaDescriptions }; // see docs/patterns.json

@@ -17,13 +17,13 @@ class DocFile {
         this.docData = {
             ...this.docData,
             ...botOutput,
-            __updated: 'yes',
+            updatedDate: new Date().toISOString(),
         }
     }
 
     save() {
-        if(!this.docData.__updated) return;
-        writeFileSync(this.docData.path, this.docData.description.trim() + '\n', 'utf-8');
+        if(!this.docData.updatedDate) return;
+        writeFileSync(this.docData.path, this.descriptionWithDate(), 'utf-8');
     }
 
     static load(docsDir: string, patternId: string): DocFile {
@@ -34,6 +34,12 @@ class DocFile {
             path: filePath,
             description: readFileSync(filePath, 'utf-8')
         });
+    }
+
+    private descriptionWithDate(): string {
+        const description = this.docData.description.trim();
+        const footer = `<!-- Codacy PatPatBot reviewed: ${this.docData.updatedDate} -->`
+        return `${description}\n\n${footer}\n`;
     }
 }
 
