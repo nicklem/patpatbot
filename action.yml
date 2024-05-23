@@ -2,10 +2,10 @@ name: 'Codacy pattern documentation generator'
 description: 'A GitHub Action to generate Codacy pattern documentation using GPT'
 author: 'Nicola Klemenc'
 inputs:
-  docs_glob:
-    description: 'Glob pattern to search for documentation files'
+  docs_dir:
+    description: 'Path to the directory containing the markdown files'
     required: false
-    default: 'docs/description/*.md'
+    default: 'docs/description'
   doc_descriptions_path:
     description: 'Path to descriptions.json'
     required: true

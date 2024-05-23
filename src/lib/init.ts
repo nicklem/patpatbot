@@ -11,7 +11,7 @@ const REPO_NAME = process.env.GITHUB_REPOSITORY.split("/")[1];
 
 // TODO getInput doesn't read default values from action.yml. Should it?
 const DOCS_DIR =
-    getInput('docs_glob')
+    getInput('docs_dir')
     || "docs/description";
 const DOC_DESCRIPTIONS_PATH =
     getInput('doc_descriptions_path')
