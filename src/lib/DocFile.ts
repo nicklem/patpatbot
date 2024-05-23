@@ -21,7 +21,7 @@ class DocFile {
     }
 
     save() {
-        writeFileSync(this.docData.path, this.docData.description.trim() + '\n', 'utf-8');
+        writeFileSync(this.docData.path, this.docData.description, 'utf-8');
     }
 
     static load(docsDir: string, patternId: string): DocFile {
