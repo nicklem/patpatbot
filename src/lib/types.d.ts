@@ -1,4 +1,3 @@
-import DocFile from "./DocFile";
 import PromptTemplate from "./PromptTemplate";
 
 export type FlatObject = Record<string, string>
