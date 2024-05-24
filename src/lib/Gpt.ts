@@ -2,7 +2,6 @@ import {ChatOpenAI} from '@langchain/openai';
 import {ChatPromptTemplate} from '@langchain/core/prompts';
 import {StringOutputParser} from '@langchain/core/output_parsers';
 import {IQueryable, FlatObject} from "./types";
-import logger from "./logging";
 import PromptTemplate from "./PromptTemplate";
 
 type PromptTemplateMessages = Array<['system' | 'human' | 'ai', string]>;
@@ -31,7 +30,6 @@ class Gpt implements IQueryable {
         this.promptTemplateMessages.push(["human", promptTemplate.promptHuman]);
         const output = await this.doPromptFromMessages(promptData);
         this.promptTemplateMessages.push(["ai", this.escapeCurlyBraces(output)]);
-        logger.info(`Last AI reply: %o [...]`, output.slice(0, 100));
 
         return promptTemplate.formatOutput(output);
     }
