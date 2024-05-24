@@ -13,7 +13,7 @@ class DocFile {
         return this.docData;
     }
 
-    update(botOutput: BotOutput) {
+    updateContents(botOutput: BotOutput) {
         this.docData = {
             ...this.docData,
             ...botOutput,

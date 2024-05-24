@@ -1,6 +1,7 @@
 import DocFile from "./DocFile";
+import PromptTemplate from "./PromptTemplate";
 
-export type PlainObject = Record<string, string>
+export type FlatObject = Record<string, string>
 
 export type ToolOptions = 'google' | 'gpt';
 
@@ -23,7 +24,7 @@ export type DocData = Partial<BotOutput> & {
 };
 
 export interface IQueryable {
-    execute(promptHuman: string, promptData: PlainObject, promptSystem?: string): Promise<string>;
+    execute(promptHuman: PromptTemplate, promptData: FlatObject): Promise<FlatObject>;
 }
 
 // The following helper types represent the shape of the data that is stored in the meta files.
@@ -37,7 +38,7 @@ export type MetaDescriptions = DocDescription[]; // see docs/description/descrip
 export type MetaPatterns = { patterns: MetaDescriptions }; // see docs/patterns.json
 export type MetaData = MetaDescriptions | MetaPatterns;
 
-// The following helper types represent the shape of the data that is stored in the prompt files.
+// The following helper types represent the expected shape of the prompt files content.
 export type PromptTemplateData = {
     tool: ToolOptions;
     promptSystem?: string;

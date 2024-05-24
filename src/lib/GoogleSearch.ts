@@ -1,26 +1,21 @@
 import axios from 'axios';
 import * as cheerio from 'cheerio';
-import Scraper from "./Scraper";
 import format from 'string-format';
-import {IQueryable, PlainObject} from "./types";
-import logger from "./logging";
+import {IQueryable, FlatObject} from "./types";
+import PromptTemplate from "./PromptTemplate";
 
 class GoogleSearch implements IQueryable {
-    constructor(
-        private readonly scraper: Scraper = new Scraper()
-    ) {}
-
     async execute(
-        promptHuman: string,
-        promptData: PlainObject = {},
-    ): Promise<string> {
-        const query = format(promptHuman, promptData);
-        const resultUrls = await this.search(query);
-        const resultData = await this.scraper.scrape(resultUrls);
-        return JSON.stringify(resultData);
+        promptTemplate: PromptTemplate,
+        promptData: FlatObject = {},
+    ): Promise<FlatObject> {
+        const query = format(promptTemplate.promptHuman, promptData);
+        const resultUrls = await this.getSerpUrls(query);
+        const scrapedResults = await this.scrapeResults(resultUrls);
+        return promptTemplate.formatOutput(scrapedResults);
     }
 
-    private async search(q: string): Promise<string[]> {
+    private async getSerpUrls(q: string): Promise<string[]> {
         const response = await axios.get(
             'https://www.google.com/search',
             {
@@ -36,6 +31,32 @@ class GoogleSearch implements IQueryable {
         return $('#search span>a')  // TODO This is flaky
             .toArray()
             .map((element) => $(element).attr('href'));
+    }
+
+    private async scrapeResults(urls: string[]): Promise<string> {
+        const tasks = urls.map(this.getAndParse);
+        const results = await Promise.all(tasks);
+
+        return results
+            .map(result => `***SEARCH RESULT***:${result}***END SEARCH RESULT***`)
+            .join('\n');
+    }
+
+    private async getAndParse(url: string): Promise<string> {
+        try {
+            const response = await axios.get(url);
+            return this.extractData(response.data);
+        } catch (error) {
+            return ""; // Ignore HTTP errors while scraping.
+        }
+    }
+
+    private extractData(html: string): string {
+        const $ = cheerio.load(html);
+        const output = $('p').text();
+
+        // TODO some results are way too long. Simply truncating for now.
+        return output.slice(0, 25000);
     }
 }
 

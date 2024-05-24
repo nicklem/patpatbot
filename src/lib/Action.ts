@@ -24,11 +24,11 @@ class Action {
             let doc = repo.docs[idx];
             logger.info(`Processing pattern ${idx + 1} of ${repo.docs.length}: %o`, doc.data.patternId);
             const botOutput = await bot.processDoc(doc.data);
-            doc.update(botOutput)
+            doc.updateContents(botOutput)
             repo.updateMeta(doc.data);
         }
 
-        repo.save();
+        repo.saveAll();
         logger.info('Done!');
     }
 }

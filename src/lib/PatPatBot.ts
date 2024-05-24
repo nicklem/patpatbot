@@ -3,13 +3,13 @@ import PromptTemplate from './PromptTemplate';
 import GoogleSearch from './GoogleSearch';
 import Gpt from './Gpt';
 import logger from "./logging";
-import {BotOutput, DocData, PlainObject} from "./types";
+import {BotOutput, DocData, FlatObject} from "./types";
 import {flatten} from "flat";
 
 export const INPUT_ID = 'input';
 export const OUTPUT_ID = 'output';
 
-export type AllPromptData = Record<string, PlainObject> & {
+export type AllPromptData = Record<string, FlatObject> & {
     [INPUT_ID]: DocData,
     [OUTPUT_ID]: BotOutput,
 }
@@ -38,12 +38,8 @@ class PatPatBot {
         return this.promptData[OUTPUT_ID];
     }
 
-    private setPromptData(k: string, v: PlainObject) {
+    private setPromptData(k: string, v: FlatObject) {
         this.promptData[k] = v;
-    }
-
-    private getPromptDataFlat(): PlainObject {
-        return flatten(this.promptData, {delimiter: '__'})
     }
 
     private async executePrompts() {
@@ -60,43 +56,27 @@ class PatPatBot {
     }
 
     private async doSearch(promptTemplate: PromptTemplate) {
-        const output = await this.search.execute(
-            promptTemplate.promptHuman,
-            this.getPromptDataFlat(),
+        this.setPromptData(
+            promptTemplate.id,
+            await this.search.execute(
+                promptTemplate,
+                this.getPromptDataFlat(),
+            ),
         );
-        this.setPromptData(promptTemplate.id, {output});
     }
 
     private async doPrompt(promptTemplate: PromptTemplate) {
-        const output = await this.gpt.execute(
-            promptTemplate.promptHuman,
-            this.getPromptDataFlat(),
-            promptTemplate.promptSystem,
+        this.setPromptData(
+            promptTemplate.id,
+            await this.gpt.execute(
+                promptTemplate,
+                this.getPromptDataFlat(),
+            ),
         );
-        const outputFormatted = promptTemplate.parseOutput
-            ? this.parseOutputAsXML(output)
-            : {output};
-        this.setPromptData(promptTemplate.id, outputFormatted);
     }
 
-    /**
-     * @param answer - GPT response containing data in XML-like format.
-     * @returns - Extracted data as a plain JS object with tags as keys.
-     */
-    private parseOutputAsXML(answer: string): PlainObject {
-        const output: PlainObject = {};
-        const tagsMatch = answer.matchAll(/<([a-zA-Z0-9\-_]+)>/g);
-        for (const match of tagsMatch) {
-            const tag = match[1];
-            const answerTag =
-                answer.match(new RegExp(`<${tag}>[^]+</${tag}>`, 'g'))?.[0]
-                || 'TODO malformed GPT output.'; // TODO handle this better by asking GPT to check.
-
-            output[tag] = answerTag
-                .replace(new RegExp(`<${tag}>|</${tag}>`, 'g'), '')
-                .trim();
-        }
-        return output;
+    private getPromptDataFlat(): FlatObject {
+        return flatten(this.promptData, {delimiter: '__'})
     }
 }
 

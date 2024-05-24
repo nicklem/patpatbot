@@ -27,7 +27,7 @@ class Repository {
         return Object.values(this.docFileData);
     }
 
-    save() {
+    saveAll() {
         this.docs.forEach((doc) => doc.save());
         this.metaDescriptions.save();
         this.metaPatterns.save();
