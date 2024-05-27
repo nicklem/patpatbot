@@ -1,18 +1,19 @@
 import axios from 'axios';
 import * as cheerio from 'cheerio';
 import format from 'string-format';
-import {IQueryable, FlatObject} from "./types";
+import {FlatObject, IQueryable} from "./types";
 import PromptTemplate from "./PromptTemplate";
-
-class GoogleSearch implements IQueryable {
+import {CheerioWebBaseLoader} from "@langchain/community/document_loaders/web/cheerio";
+class GoogleSearch {
     async execute(
         promptTemplate: PromptTemplate,
         promptData: FlatObject = {},
-    ): Promise<FlatObject> {
+    ): Promise<{output: string[]}> {
         const query = format(promptTemplate.promptHuman, promptData);
         const resultUrls = await this.getSerpUrls(query);
         const scrapedResults = await this.scrapeResults(resultUrls);
-        return promptTemplate.formatOutput(scrapedResults);
+        return {output: scrapedResults};
+        // return promptTemplate.formatOutput(scrapedResults);
     }
 
     private async getSerpUrls(q: string): Promise<string[]> {
@@ -30,33 +31,25 @@ class GoogleSearch implements IQueryable {
 
         return $('#search span>a')  // TODO This is flaky
             .toArray()
+            .slice(0, 10)
             .map((element) => $(element).attr('href'));
     }
 
-    private async scrapeResults(urls: string[]): Promise<string> {
-        const tasks = urls.map(this.getAndParse);
-        const results = await Promise.all(tasks);
-
-        return results
-            .map(result => `***SEARCH RESULT***:${result}***END SEARCH RESULT***`)
-            .join('\n');
+    private async scrapeResults(urls: string[]): Promise<string[]> {
+        const tasks = urls.map(this.getContent);
+        return await Promise.all(tasks);
+            // .map(result => `***SEARCH RESULT***:${result}***END SEARCH RESULT***`)
+            // .join('\n');
     }
 
-    private async getAndParse(url: string): Promise<string> {
-        try {
-            const response = await axios.get(url);
-            return this.extractData(response.data);
-        } catch (error) {
-            return ""; // Ignore HTTP errors while scraping.
-        }
-    }
-
-    private extractData(html: string): string {
-        const $ = cheerio.load(html);
-        const output = $('p').text();
-
-        // TODO some results are way too long. Simply truncating for now.
-        return output.slice(0, 25000);
+    private async getContent(url: string): Promise<any> {
+        const loader = new CheerioWebBaseLoader(url, {selector: "p"});
+        const document = await loader.load();
+        return document
+            .map(({pageContent}) => pageContent)
+            .join('\n')
+            // TODO some results are way too long. Simply truncating for now.
+            .slice(0, 25000);
     }
 }
 
