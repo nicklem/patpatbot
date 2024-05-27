@@ -33,6 +33,7 @@ type SearchStep = {
 
 type ReduceStep = {
     service: 'reduce';
+    outputFormat: 'plainText' | 'jsonEncode';
 }
 
 type IChatStep<T extends StepGeneric> = {
@@ -55,6 +56,8 @@ type BaseInputEntry = Array<BaseInput> | BaseInput;
 
 type Context = Record<string, BaseInputEntry>;
 
+type PartialContext = Partial<Context>;
+
 const models: Partial<Record<AvailableModels, ChatOpenAI>> = {
     'gpt-4o': new ChatOpenAI({
         model: 'gpt-4o',
@@ -65,7 +68,9 @@ const models: Partial<Record<AvailableModels, ChatOpenAI>> = {
         apiKey: API_KEY_OPENAI,
     }),
 }
-abstract class BaseChatStep<T extends StepGeneric> implements IChatStepClass<any> {
+abstract class BaseChatStep<T extends StepGeneric, U>
+    implements IChatStepClass<any>
+{
     readonly OUTPUT_KEY_DEFAULT = 'output';
 
     readonly service: T['service'];
@@ -76,24 +81,24 @@ abstract class BaseChatStep<T extends StepGeneric> implements IChatStepClass<any
         this.service = params.service;
         this.id = params.id;
         this.promptTemplate = params.promptTemplate;
+
+        this._processRequest = this._processRequest.bind(this);
     }
 
     async run(context: Context): Promise<Context> {
-        const results = [];
-
-        for(const request of this.inputValuesToFlatArray(context)) {
-            results.push(await this._processRequest(request));
-        }
-
-        const output = this._formatResults(results);
+        const taskContexts = this._extractTaskContexts(context);
+        const tasks = taskContexts.map(this._processRequest);
+        const results = await Promise.all(tasks);
+        const output = this._gatherResults(results);
 
         return this._formatOutput(output);
     }
 
     /**
-     * Turns `{p: 0, q: [0, 1]}` into `[{p: 0, q: 0}, {p: 0, q: 1}]`.
+     * Extracts task contexts from the given context.
+     * E.g.: `{p: 0, q: [0, 1]}` to `[{p: 0, q: 0}, {p: 0, q: 1}]`.
      */
-    protected inputValuesToFlatArray(context: Context): Array<Partial<Context>> {
+    protected _extractTaskContexts(context: Context): Array<PartialContext> {
         const promptTemplateKeys = this.promptTemplate
             .match(/{\w+}/g)
             .map((key) => key?.replace(/[{}]/g, ''))
@@ -108,32 +113,40 @@ abstract class BaseChatStep<T extends StepGeneric> implements IChatStepClass<any
         }
 
         return Array.from({length: maxIdx}, (_, idx) => {
-            const values: Partial<Context> = {};
+            const values: PartialContext = {};
+
             promptTemplateKeys.forEach(k => {
                 const v = context[k];
                 if(Array.isArray(v)) {
-                    values[k] = v[idx];
+                    // Default to the last value.
+                    values[k] = v[idx] ?? v[v.length - 1];
                 } else {
                     values[k] = v;
                 }
             });
+
             return values;
         });
     }
 
-    protected _formatOutput(output: Partial<Context>): Partial<Context> {
-        return Object.keys(output).reduce((acc, key) => {
-            acc[`${this.id}__${key}`] = output[key];
-            return acc;
-        }, {});
+    protected _formatOutput(output: PartialContext): PartialContext {
+        const outputFormatted = {};
+        for(const key in output) {
+            outputFormatted[`${this.id}__${key}`] = output[key];
+        }
+
+        return outputFormatted;
     }
 
-    abstract _processRequest<T>(context: Partial<Context>): Promise<T>
+    abstract _processRequest(context: PartialContext, idx?: number): Promise<U>
 
-    abstract _formatResults<T>(output: T): Partial<Context>;
+    abstract _gatherResults(output: Array<U>): PartialContext;
 }
 
-class ChatStepGpt extends BaseChatStep<GPTStep> implements IChatStepClass<GPTStep> {
+class ChatStepGpt
+    extends BaseChatStep<GPTStep, PartialContext>
+    implements IChatStepClass<GPTStep>
+{
     readonly modelProcess: AvailableModels;
     readonly modelFix: AvailableModels;
     readonly promptSystem?: string;
@@ -148,8 +161,7 @@ class ChatStepGpt extends BaseChatStep<GPTStep> implements IChatStepClass<GPTSte
         this.outputSchema = params.outputSchema;
     }
 
-    // @ts-ignore
-    async _processRequest(context: Partial<Context>): Promise<Partial<Context>> {
+    async _processRequest(context: PartialContext): Promise<PartialContext> {
         const inputMessages: PromptTemplateMessages = this.promptSystem
             ? [['system', this.promptSystem]]
             : [];
@@ -157,7 +169,6 @@ class ChatStepGpt extends BaseChatStep<GPTStep> implements IChatStepClass<GPTSte
         inputMessages.push(['human', this.promptTemplate + ' {__formatInstructions}']);
 
         const jsonParser = StructuredOutputParser.fromZodSchema(z.object(this.outputSchema));
-        const __formatInstructions = jsonParser.getFormatInstructions();
 
         const plainOutput = await ChatPromptTemplate
             .fromMessages(inputMessages)
@@ -165,7 +176,7 @@ class ChatStepGpt extends BaseChatStep<GPTStep> implements IChatStepClass<GPTSte
             .pipe(new StringOutputParser())
             .invoke({
                 ...context,
-                __formatInstructions
+                __formatInstructions: jsonParser.getFormatInstructions()
             });
 
         return await jsonParser
@@ -179,55 +190,70 @@ class ChatStepGpt extends BaseChatStep<GPTStep> implements IChatStepClass<GPTSte
             });
     }
 
-    // @ts-ignore
-    _formatResults(output: Array<Partial<Context>>): Partial<Context> {
+    _gatherResults(output: Array<PartialContext>): PartialContext {
         if(output.length === 1) {
             return output[0];
         }
 
-        return Object.keys(output[0])
-            .reduce((acc, key) => {
-                acc[key] = output.map((o) => o[key]);
-                return acc;
-            }, {});
+        const outputGathered = {};
+        for(const key in output[0]) {
+            outputGathered[key] = output.map(o => o[key]);
+        }
+
+        return outputGathered;
     }
 }
 
-class ChatStepSearch extends BaseChatStep<SearchStep> implements IChatStepClass<SearchStep> {
+class ChatStepSearch
+    extends BaseChatStep<SearchStep, Array<string>>
+    implements IChatStepClass<SearchStep>
+{
     constructor(params: IChatStep<SearchStep>) {
         super(params);
     }
 
-    // @ts-ignore
-    async _processRequest(context: Partial<Context>): Promise<Array<string>> {
+    async _processRequest(context: PartialContext, idx: number): Promise<Array<string>> {
         // TODO Adding a delay to avoid rate limiting. Improve this.
-        // await new Promise(r => setTimeout(r, 10000 * idx));
+        await new Promise(r => setTimeout(r, 10000 * idx));
         const query = format(this.promptTemplate, context);
         return (await Scraper.searchAndScrape(query)).slice(0, 3);
     }
 
-    // @ts-ignore
-    _formatResults(output: Array<Array<string>>): Partial<Context> {
+    _gatherResults(output: Array<Array<string>>): PartialContext {
         return {
             [this.OUTPUT_KEY_DEFAULT]: output.flat(),
         }
     }
 }
 
-class ChatStepReduce extends BaseChatStep<ReduceStep> implements IChatStepClass<ReduceStep> {
+class ChatStepReduce
+    extends BaseChatStep<ReduceStep, string>
+    implements IChatStepClass<ReduceStep>
+{
+    readonly outputFormat: 'plainText' | 'jsonEncode';
+
     constructor(params: IChatStep<ReduceStep>) {
         super(params);
+
+        this.outputFormat = params.outputFormat;
     }
 
-    // @ts-ignore
-    async _processRequest(context: Partial<Context>): string {
+    async _processRequest(context: PartialContext): Promise<string> {
         return format(this.promptTemplate, context);
     }
 
-    // @ts-ignore
-    _formatResults(output: Array<string>): Partial<Context> {
+    _gatherResults(output: Array<string>): PartialContext {
         return {
-            [this.OUTPUT_KEY_DEFAULT]: JSON.stringify(output),
+            [this.OUTPUT_KEY_DEFAULT]: this._formatOutputValue(output),
+        }
+    }
+
+    _formatOutputValue(value: Array<string>): string {
+        switch (this.outputFormat) {
+            case 'jsonEncode':
+                return JSON.stringify(value);
+            default:
+                return value.join('\n');
         }
     }
 }
@@ -308,7 +334,7 @@ const steps: Array<ChatStepGeneric> = [
         promptTemplate: "{formatSearchArray__queries}",
     },
     {
-        id: 'summarizeResults',
+        id: 'summarizeResultsArray',
         service: 'gpt',
         modelProcess: 'gpt-3.5-turbo-0125',
         modelFix: 'gpt-3.5-turbo-0125',
@@ -366,13 +392,14 @@ const steps: Array<ChatStepGeneric> = [
     {
         id: 'summariesReduce',
         service: 'reduce',
-        promptTemplate: "relevant: {summarizeResults__isRelevant}; description: {summarizeResults__summary}",
+        promptTemplate: "relevant: {summarizeResultsArray__isRelevant}; description: {summarizeResultsArray__summary}",
+        outputFormat: 'jsonEncode',
     },
     {
         id: 'writeDocumentation',
         service: 'gpt',
         modelProcess: 'gpt-4o',
-        modelFix: 'gpt-4o',
+        modelFix: 'gpt-3.5-turbo-0125',
         promptSystem:
             "You are a world-class technical writer.",
         promptTemplate:
@@ -413,7 +440,13 @@ const steps: Array<ChatStepGeneric> = [
             exampleIssueSolution: z.string()
                 .describe("A brief description of the proposed solution to the issue in the code example. About 10 words."),
         },
-    }
+    },
+    {
+        id: 'formatOutput',
+        service: 'reduce',
+        promptTemplate: "{writeDocumentation__content}",
+        outputFormat: 'plainText',
+    },
 ];
 
 async function search() {
@@ -430,11 +463,7 @@ async function search() {
         );
     }
 
-    console.log((context as any).writeDocumentation__content);
-    console.log((context as any).writeDocumentation__exampleIssueProblem);
-    console.log((context as any).writeDocumentation__exampleIssue);
-    console.log((context as any).writeDocumentation__exampleIssueSolution);
-    console.log((context as any).writeDocumentation__exampleSolution);
+    console.log((context as any).formatOutput__output);
 }
 
 search();
