@@ -37,13 +37,14 @@ class DocFile {
     }
 
     private descriptionWithDate(): string {
-        const description = this.docData.description
+        const description = this.docData.description.trim();
+        const example = this.docData.example
             .trim()
             // TODO abstract this. Look for these in in Gpt.ts
             .replace(/&#x7B;/g, '{')
             .replace(/&#x7D;/g, '}');
         const footer = `<!-- Codacy PatPatBot reviewed: ${this.docData.updatedDate} -->`
-        return `${description}\n\n${footer}\n`;
+        return `${description}\n\n${example}\n\n${footer}\n`;
     }
 }
 

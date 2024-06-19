@@ -9,6 +9,7 @@ export type BotOutput = {
     title: string;
     summary: string;
     description: string;
+    example: string;
 };
 
 // The input to the query chain.
