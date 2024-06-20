@@ -1,5 +1,5 @@
 import {readFileSync, writeFileSync} from "fs";
-import {DocData, MetaData, MetaDescriptions, MetaPatterns} from "./types";
+import {DocData, MetaData, MetaDescriptions} from "./types";
 
 class MetaFile {
     private readonly path: string;
@@ -33,9 +33,7 @@ class MetaFile {
     }
 
     get patternDescriptions(): MetaDescriptions {
-        return this.fileData.hasOwnProperty('patterns')
-            ? (this.fileData as MetaPatterns).patterns
-            : (this.fileData as MetaDescriptions);
+        return (this.fileData as MetaDescriptions);
     }
 }
 
