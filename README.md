@@ -15,7 +15,6 @@ All compiled files in `dist` are therefore committed.
 
 1. Set environment variables: `cp .env.example .env` and edit the file
 1. Install dependencies: `npm i`
-1. Install compiler: `npm i -g @vercel/ncc`
 1. Build: `npm run build`
 1. Run locally: `npm run start`
 

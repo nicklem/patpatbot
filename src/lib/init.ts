@@ -12,7 +12,6 @@ const PATHS_PROMPTS = glob.sync(join(__dirname, "..", "prompts", "*.json")).sort
 // TODO getInput doesn't read default values from action.yml locally. Should it?
 const DOCS_DIR = getInput('docs_dir') || "docs/description";
 const DOC_DESCRIPTIONS_PATH = getInput('doc_descriptions_path') || "docs/description/description.json";
-const DOC_PATTERNS_PATH = getInput('doc_patterns_path') || "docs/patterns.json";
 
 export {
     API_KEY_OPENAI,
@@ -20,5 +19,4 @@ export {
     PATHS_PROMPTS,
     DOCS_DIR,
     DOC_DESCRIPTIONS_PATH,
-    DOC_PATTERNS_PATH,
 };

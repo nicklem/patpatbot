@@ -35,8 +35,7 @@ export type DocDescription = {
     patPatBotReviewed?: string,
 };
 export type MetaDescriptions = DocDescription[]; // see docs/description/description.json
-export type MetaPatterns = { patterns: MetaDescriptions }; // see docs/patterns.json
-export type MetaData = MetaDescriptions | MetaPatterns;
+export type MetaData = MetaDescriptions;
 
 // The following helper types represent the expected shape of the prompt files content.
 export type PromptTemplateData = {

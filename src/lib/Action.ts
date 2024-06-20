@@ -1,6 +1,6 @@
 import PatPatBot from "./PatPatBot";
 import Gpt from "./Gpt";
-import {API_KEY_OPENAI, DOC_DESCRIPTIONS_PATH, DOC_PATTERNS_PATH, DOCS_DIR, REPO_NAME} from "./init";
+import {API_KEY_OPENAI, DOC_DESCRIPTIONS_PATH, DOCS_DIR, REPO_NAME} from "./init";
 import GoogleSearch from "./GoogleSearch";
 import Repository from "./Repository";
 import logger from "./logging";
@@ -16,7 +16,6 @@ class Action {
             REPO_NAME,
             DOCS_DIR,
             DOC_DESCRIPTIONS_PATH,
-            DOC_PATTERNS_PATH,
         );
 
         const maxIdx = Math.min(repo.docs.length, 20); // TODO remove this

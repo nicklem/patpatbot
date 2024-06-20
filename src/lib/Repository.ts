@@ -6,19 +6,16 @@ import MetaFile from "./MetaFile";
 class Repository {
     private readonly name: string;
     private readonly metaDescriptions: MetaFile;
-    private readonly metaPatterns: MetaFile;
     private readonly docFileData: Record<string, DocFile>;
 
     constructor(
         name: string,
         docsDir: string,
         docDescriptionPath: string,
-        docPatternsPath: string,
         namePrefix: string = "codacy-"
     ) {
         this.name = namePrefix ? name.replace(namePrefix, "") : name;
         this.metaDescriptions = MetaFile.load(docDescriptionPath);
-        this.metaPatterns = MetaFile.load(docPatternsPath);
         this.docFileData = this.loadDocFiles(docsDir, this.metaDescriptions.patternDescriptions);
         logger.info(`Found ${Object.keys(this.docFileData).length} documentation files.`);
     }
@@ -30,12 +27,10 @@ class Repository {
     saveAll() {
         this.docs.forEach((doc) => doc.save());
         this.metaDescriptions.save();
-        this.metaPatterns.save();
     }
 
     updateMeta(data: DocData) {
         this.metaDescriptions.update(data);
-        this.metaPatterns.update(data);
     }
 
     private loadDocFiles(docsDir: string, docDescriptions: MetaDescriptions) {
